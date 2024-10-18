@@ -11,6 +11,7 @@ export const Cart = () => {
     height: "43px",
     display: "flex",
     gap: 10,
+    marginLeft: "20px",
   }));
 
   return (
@@ -25,7 +26,7 @@ export const Cart = () => {
       >
         <FaShoppingCart style={{ fontSize: "18px" }} />
       </Badge>
-      <Typography variant="body2">Cửa Hàng</Typography>
+      <Typography variant="body2">Giỏ Hàng</Typography>
     </CartIconButton>
   );
 };

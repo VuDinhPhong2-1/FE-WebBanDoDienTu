@@ -18,7 +18,6 @@ const StyledAppBar = styled(AppBar)(({ theme }) => ({
   backgroundColor: "#D91E1E",
   position: "fixed", // Make it fixed
   top: 0, // Align to the top
-  zIndex: theme.zIndex.drawer + 1, // Ensure it stays on top
 }));
 
 const SecondaryNav = styled(Box)(({ theme }) => ({
@@ -30,7 +29,7 @@ const SecondaryNav = styled(Box)(({ theme }) => ({
   position: "fixed", // Make it fixed as well
   width: "100%",
   top: "70px", // Place it right below the main AppBar
-  zIndex: theme.zIndex.drawer + 1,
+  zIndex: 2,
 }));
 
 const NavItem = styled(Box)(({ theme }) => ({
@@ -41,7 +40,7 @@ const NavItem = styled(Box)(({ theme }) => ({
     textDecoration: "none",
     color: "red",
   },
-  marginLeft: "40px"
+  marginLeft: "40px",
 }));
 
 export const NavBar = () => {
@@ -60,7 +59,7 @@ export const NavBar = () => {
               height: "70px",
             }}
           >
-            <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Box sx={{ display: "flex", alignItems: "center", width: "100%" }}>
               {/* Logo component*/}
               <Logo />
               {/* Search component */}
