@@ -1,7 +1,8 @@
 import { Badge, IconButton, styled, Typography } from "@mui/material";
 import { FaShoppingCart } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
-export const Cart = () => {
+export const Cart = ({ cartItemsCount }) => {
   const CartIconButton = styled(IconButton)(({ theme }) => ({
     color: "inherit",
     border: "2px solid white",
@@ -13,11 +14,12 @@ export const Cart = () => {
     gap: 10,
     marginLeft: "20px",
   }));
+  const navigate = useNavigate();
 
   return (
-    <CartIconButton>
+    <CartIconButton onClick={() => navigate(`/cart`)}>
       <Badge
-        badgeContent={4}
+        badgeContent={cartItemsCount}
         sx={{
           "& .MuiBadge-badge": {
             backgroundColor: "#F70000", // Màu sắc của badge

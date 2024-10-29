@@ -169,6 +169,9 @@ export const ProductList = ({ categoryName, categories, products }) => {
       >
         <Button
           variant="contained"
+          onClick={() =>
+            navigate(`collections/${categoryName}`)
+          }
           sx={{
             display: "flex",
             alignItems: "center",
@@ -182,9 +185,6 @@ export const ProductList = ({ categoryName, categories, products }) => {
             "&:hover": {
               backgroundColor: "#c41b1b",
             },
-          }}
-          onClick={() => {
-            console.log("Xem tất cả sản phẩm");
           }}
         >
           Xem tất cả

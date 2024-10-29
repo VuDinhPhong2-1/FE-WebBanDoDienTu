@@ -65,6 +65,8 @@ const CategoryPage = () => {
         background: "#F5F5F5",
         gap: 2,
         overflowX: "hidden",
+        height: "600px",
+        maxHeight: "100%",
       }}
     >
       {/* Filter products */}

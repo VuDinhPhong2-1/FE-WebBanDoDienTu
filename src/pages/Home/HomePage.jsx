@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { ProductSlider } from "../../components/Home/Slider";
 import { ProductList } from "../../components/Home/ProductList";
 
-export const Home = () => {
+export const HomePage = () => {
   const [laptopProducts, setLaptopProducts] = useState([]);
   const [pcProducts, setPCProducts] = useState([]);
   const [screenProducts, setScreenProducts] = useState([]);
@@ -95,7 +95,7 @@ export const Home = () => {
 
       {/* PC Gaming List */}
       <ProductList
-        categoryName="PC Gaming"
+        categoryName="PC"
         categories={pcCategories}
         products={pcProducts}
       />

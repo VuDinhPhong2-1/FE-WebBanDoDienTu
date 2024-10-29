@@ -5,13 +5,14 @@ import {
   Grid,
   IconButton,
   Divider,
-  Dialog, // Import Dialog
+  Dialog,
 } from "@mui/material";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import { useState, useEffect } from "react"; // Import useState và useEffect
+import { useState, useEffect } from "react";
+import Cookies from "js-cookie";
 
 const ProductDetailWrapper = styled(Box)`
   display: flex;
@@ -32,13 +33,12 @@ const ProductDetailContainer = styled(Box)`
   flex-direction: column;
 `;
 
-export const ProductDetail = () => {
+export const ProductDetailPage = ({ updateCartCount }) => {
   const { productId } = useParams();
   const [product, setProduct] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [openDialog, setOpenDialog] = useState(false);
   const [quantity, setQuantity] = useState(1);
-  const navigate = useNavigate();
 
   // Fetch product data
   useEffect(() => {
@@ -88,6 +88,35 @@ export const ProductDetail = () => {
 
   const decreaseQuantity = () => {
     setQuantity((prevQuantity) => (prevQuantity > 1 ? prevQuantity - 1 : 1));
+  };
+
+  // Hàm thêm sản phẩm vào giỏ hàng
+  const addToCart = () => {
+    // Lấy giỏ hàng từ cookie thay vì localStorage
+    const cart = JSON.parse(Cookies.get("cart") || "[]");
+    const productToAdd = {
+      id: product.productId,
+      name: product.name,
+      price: product.discountedPrice || product.originalPrice,
+      quantity: quantity,
+      imageUrl: product.images[0].imageUrl,
+    };
+
+    const existingProductIndex = cart.findIndex(
+      (item) => item.id === product.productId
+    );
+    if (existingProductIndex !== -1) {
+      cart[existingProductIndex].quantity += quantity;
+    } else {
+      cart.push(productToAdd);
+    }
+
+    Cookies.set("cart", JSON.stringify(cart), { expires: 7 });
+
+
+    updateCartCount();
+
+    alert("Đã thêm vào giỏ hàng!");
   };
 
   if (!product) {
@@ -147,16 +176,16 @@ export const ProductDetail = () => {
                 </IconButton>
 
                 <img
-                  src={product.images[currentImageIndex].imageUrl} // Hình ảnh hiện tại
+                  src={product.images[currentImageIndex].imageUrl}
                   alt={product.name}
                   style={{
                     maxWidth: "100%",
                     width: "600px",
                     height: "auto",
-                    objectFit: "contain", // Đảm bảo hình ảnh không bị méo
-                    cursor: "pointer", // Thêm con trỏ pointer
+                    objectFit: "contain",
+                    cursor: "pointer",
                   }}
-                  onClick={handleImageClick} // Mở dialog khi click
+                  onClick={handleImageClick}
                 />
 
                 {/* Mũi tên phải */}
@@ -180,8 +209,8 @@ export const ProductDetail = () => {
               <Box
                 sx={{
                   display: {
-                    xs: "none", // Ẩn khi kích thước màn hình nhỏ hơn `sm`
-                    sm: "flex", // Hiển thị từ `sm` trở lên
+                    xs: "none",
+                    sm: "flex",
                   },
                   justifyContent: "center",
                   marginTop: "15px",
@@ -231,7 +260,6 @@ export const ProductDetail = () => {
                 height: "fit-content",
               }}
             >
-              {/* Name product */}
               <Typography variant="h5" fontWeight={"bold"}>
                 {product.name}
               </Typography>
@@ -240,8 +268,8 @@ export const ProductDetail = () => {
                 <Typography variant="subtitle1">
                   Thương hiệu:{" "}
                   <Typography
-                    component="span" // Dùng span để không tạo ra block mới
-                    sx={{ color: "red" }} // Đặt màu đỏ
+                    component="span"
+                    sx={{ color: "red" }}
                     fontWeight={"bold"}
                   >
                     {product.brandName.name}
@@ -251,15 +279,15 @@ export const ProductDetail = () => {
                 <Typography variant="subtitle1">
                   Loại:{" "}
                   <Typography
-                    component="span" // Dùng span để không tạo ra block mới
-                    sx={{ color: "red" }} // Đặt màu đỏ
+                    component="span"
+                    sx={{ color: "red" }}
                     fontWeight={"bold"}
                   >
                     {product.categories[0].name}{" "}
                   </Typography>
                 </Typography>
               </Box>
-              {/* Hiển thị giá, nếu có giảm giá thì hiển thị cả giá gốc */}
+
               <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
                 {product.discountedPrice < product.originalPrice && (
                   <Typography
@@ -284,7 +312,6 @@ export const ProductDetail = () => {
                 </Typography>
               </Box>
 
-              {/* Số lượng sản phẩm */}
               <Box
                 sx={{
                   display: "flex",
@@ -296,7 +323,7 @@ export const ProductDetail = () => {
               >
                 <IconButton
                   onClick={decreaseQuantity}
-                  disabled={quantity <= 1} // Không cho phép giảm dưới 1
+                  disabled={quantity <= 1}
                   sx={{ margin: "0 10px", "&:hover": { background: "none" } }}
                 >
                   -
@@ -355,6 +382,7 @@ export const ProductDetail = () => {
                   marginTop: "30px",
                   gap: 1,
                 }}
+                onClick={addToCart} // Thêm hàm xử lý thêm vào giỏ hàng
               >
                 <Typography
                   sx={{ textTransform: "uppercase", fontWeight: "bold" }}
@@ -369,7 +397,6 @@ export const ProductDetail = () => {
           </Grid>
         </Grid>
 
-        {/* Dialog hiển thị hình ảnh lớn */}
         <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="md">
           <img
             src={product.images[currentImageIndex].imageUrl}
@@ -377,9 +404,7 @@ export const ProductDetail = () => {
             style={{ width: "100%", height: "auto" }}
           />
         </Dialog>
-        <Box sx={{ width: "" }}></Box>
 
-        {/* Description */}
         <Box
           sx={{
             display: "flex",
@@ -388,9 +413,9 @@ export const ProductDetail = () => {
             background: "white",
             marginTop: "30px",
             flexDirection: "column",
-            wordBreak: "break-all", // Tự động xuống dòng nếu vượt quá chiều rộng
-            paddingLeft: "20px", // Đảm bảo có khoảng cách bên trái
-            listStylePosition: "inside", // Đảm bảo chấm đầu dòng nằm bên trong
+            wordBreak: "break-all",
+            paddingLeft: "20px",
+            listStylePosition: "inside",
           }}
         >
           <Typography

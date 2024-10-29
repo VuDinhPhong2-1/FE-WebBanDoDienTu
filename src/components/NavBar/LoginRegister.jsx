@@ -22,7 +22,6 @@ export const LoginRegister = () => {
   const [passwordError, setPasswordError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [user, setUser] = useState(null); // Thêm state để lưu thông tin người dùng
 
   useEffect(() => {
     const token = sessionStorage.getItem("access_token");
@@ -80,27 +79,25 @@ export const LoginRegister = () => {
           }
         );
 
-        // Giả sử API trả về access_token trong response.data
+        // Giả sử API trả về access_token và thông tin người dùng trong response.data
         const { access_token, user: userData } = response.data;
 
-        // Lưu access_token vào sessionStorage
+        // Lưu access_token và userData vào sessionStorage
         sessionStorage.setItem("access_token", access_token);
+        sessionStorage.setItem("userData", JSON.stringify(userData));
 
-        // Cập nhật trạng thái đăng nhập và thông tin người dùng
+        // Cập nhật trạng thái đăng nhập
         setIsLoggedIn(true);
-        setUser(userData);
 
         // Đóng popover
         handleClose();
       } catch (error) {
         console.error("Login failed:", error);
-        // Xử lý lỗi, ví dụ: hiển thị thông báo lỗi
         if (
           error.response &&
           error.response.data &&
           error.response.data.message
         ) {
-          // Bạn có thể thêm state để hiển thị thông báo lỗi
           alert(error.response.data.message);
         } else {
           alert("Đăng nhập thất bại. Vui lòng thử lại!");
@@ -134,7 +131,7 @@ export const LoginRegister = () => {
 
       // Cập nhật trạng thái đăng nhập
       setIsLoggedIn(false);
-      setUser(null);
+      // setUser(null);
     } catch (error) {
       console.error("Logout failed:", error);
       alert("Đăng xuất thất bại. Vui lòng thử lại!");

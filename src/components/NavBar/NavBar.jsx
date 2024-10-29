@@ -43,7 +43,7 @@ const NavItem = styled(Box)(({ theme }) => ({
   marginLeft: "40px",
 }));
 
-export const NavBar = () => {
+export const NavBar = ({ cartItemsCount, setUser }) => {
   return (
     <>
       {/* StyledAppBar */}
@@ -72,9 +72,9 @@ export const NavBar = () => {
               {/* StoreLocator */}
               <StoreLocator />
               {/* Login Register */}
-              <LoginRegister />
+              <LoginRegister setUser={setUser} />
               {/* Cart */}
-              <Cart />
+              <Cart cartItemsCount={cartItemsCount} />
             </Box>
           </Box>
         </Toolbar>

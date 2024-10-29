@@ -3,7 +3,7 @@ import { Box } from "@mui/material";
 import { NavBar } from "../components/NavBar/NavBar";
 import { Footer } from "../components/Footer/Footer";
 
-export const MainLayout = ({ children }) => {
+export const MainLayout = ({ children, cartItemsCount, updateCartCount }) => {
   return (
     <Box
       sx={{
@@ -15,7 +15,9 @@ export const MainLayout = ({ children }) => {
         boxSizing: "border-box",
       }}
     >
-      <NavBar />
+      <NavBar
+        cartItemsCount={cartItemsCount}
+      />
       <Box sx={{ flexGrow: 1 }}>{children}</Box>
       <Footer />
     </Box>

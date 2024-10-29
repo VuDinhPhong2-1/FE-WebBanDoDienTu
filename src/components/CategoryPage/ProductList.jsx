@@ -1,7 +1,6 @@
-import { Box, Typography, Grid, Button } from "@mui/material";
+import { Box, Typography, Grid, Pagination } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 
 // Styled components
 const ProductListWrapper = styled(Box)`
@@ -46,7 +45,7 @@ const ProductItem = styled(Box)`
   }
 `;
 
-// ProductList component
+// Component ProductList
 export const ProductList = ({
   categoryName,
   categories,
@@ -55,13 +54,10 @@ export const ProductList = ({
   page,
 }) => {
   const navigate = useNavigate();
-  const handlePage = () => {
-    setPage(page + 1); // Sử dụng setPage trực tiếp từ props
-  };
 
   return (
     <ProductListWrapper>
-      {/* Title and categories */}
+      {/* Tiêu đề và danh mục */}
       <Box
         sx={{
           display: "flex",
@@ -102,10 +98,9 @@ export const ProductList = ({
             ))}
         </Box>
       </Box>
-
-      {/* Product List */}
+      {/* Danh sách sản phẩm */}
       <Grid container spacing={2} sx={{ marginTop: 2 }}>
-        {products.products?.length > 0 &&
+        {products.products?.length > 0 ? (
           products.products.map((product) => (
             <Grid item xs={6} sm={4} md={3} lg={3} key={product.productId}>
               <ProductItem
@@ -138,7 +133,7 @@ export const ProductList = ({
                   {product.name}
                 </Typography>
 
-                {/* Display price and discount */}
+                {/* Hiển thị giá và giảm giá */}
                 <Box sx={{ display: "flex", gap: 2 }}>
                   {product.discountedPrice < product.originalPrice && (
                     <Typography
@@ -163,10 +158,18 @@ export const ProductList = ({
                 </Box>
               </ProductItem>
             </Grid>
-          ))}
+          ))
+        ) : (
+          <Typography
+            variant="h6"
+            sx={{ margin: "auto", marginTop: 4, color: "gray" }}
+          >
+            Không còn sản phẩm nào
+          </Typography>
+        )}
       </Grid>
 
-      {/* Button "Xem tất cả" */}
+      {/* Nút phân trang */}
       <Box
         sx={{
           display: "flex",
@@ -176,29 +179,12 @@ export const ProductList = ({
           height: "fit-content",
         }}
       >
-        <Button
-          variant="contained"
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: 1,
-            backgroundColor: "#d91e1e",
-            color: "white",
-            padding: "10px 20px",
-            borderRadius: "5px",
-            minWidth: "200px",
-            "&:hover": {
-              backgroundColor: "#c41b1b",
-            },
-          }}
-          onClick={() => {
-            handlePage();
-          }}
-        >
-          Xem tất cả
-          <KeyboardDoubleArrowRightIcon sx={{ fontSize: "small" }} />
-        </Button>
+        <Pagination
+          count={products.totalPages}
+          page={page}
+          onChange={(event, value) => setPage(value)}
+          color="primary"
+        />
       </Box>
     </ProductListWrapper>
   );
