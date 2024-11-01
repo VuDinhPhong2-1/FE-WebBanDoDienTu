@@ -85,35 +85,51 @@ export const NavBar = ({ cartItemsCount, setUser }) => {
         <CategoryMenu />
         <NavItem>
           <FaCreditCard />
-          <Typography variant="body2" sx={{ marginLeft: 1 }}>
+          <Typography
+            variant="body2"
+            sx={{ marginLeft: 1, whiteSpace: "nowrap" }}
+          >
             Hướng dẫn thanh toán
           </Typography>
         </NavItem>
         <NavItem>
           <FaPercent />
-          <Typography variant="body2" sx={{ marginLeft: 1 }}>
+          <Typography
+            variant="body2"
+            sx={{ marginLeft: 1, whiteSpace: "nowrap" }}
+          >
             Hướng dẫn trả góp
           </Typography>
         </NavItem>
         <NavItem>
           <FaWrench />
-          <Typography variant="body2" sx={{ marginLeft: 1 }}>
+          <Typography
+            variant="body2"
+            sx={{ marginLeft: 1, whiteSpace: "nowrap" }}
+          >
             Tra cứu bảo hành
           </Typography>
         </NavItem>
         <NavItem>
           <FaUserTie />
-          <Typography variant="body2" sx={{ marginLeft: 1 }}>
+          <Typography
+            variant="body2"
+            sx={{ marginLeft: 1, whiteSpace: "nowrap" }}
+          >
             Tuyển dụng
           </Typography>
         </NavItem>
         <NavItem>
           <FaNewspaper />
-          <Typography variant="body2" sx={{ marginLeft: 1 }}>
+          <Typography
+            variant="body2"
+            sx={{ marginLeft: 1, whiteSpace: "nowrap" }}
+          >
             Tin công nghệ
           </Typography>
         </NavItem>
       </SecondaryNav>
+
       {/* Add some padding to push content below the fixed navbar */}
       <Box sx={{ marginTop: "107px" }}></Box>
     </>

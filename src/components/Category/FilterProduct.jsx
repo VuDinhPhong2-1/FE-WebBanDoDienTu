@@ -61,7 +61,7 @@ export const FilterProduct = ({ categories, onCategoryChange }) => {
 
   return (
     <Container>
-      <Typography fontWeight={"bold"} sx={{ width: "fit-content" }}>
+      <Typography fontWeight={"bold"} sx={{ width: "fit-content", height:"40px" }}>
         Thương hiệu
       </Typography>
       <Grid container spacing={2}>

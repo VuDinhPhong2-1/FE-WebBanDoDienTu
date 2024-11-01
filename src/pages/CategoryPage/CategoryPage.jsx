@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Box } from "@mui/material";
-import { FilterProduct } from "../../components/CategoryPage/FilterProduct";
-import { ProductList } from "../../components/CategoryPage/ProductList";
+import { FilterProduct } from "../../components/Category/FilterProduct";
+import { ProductList } from "../../components/Category/ProductList";
 
 const CategoryPage = () => {
   const { categoryName } = useParams();

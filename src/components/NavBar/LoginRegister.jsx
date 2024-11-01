@@ -10,23 +10,28 @@ import {
 } from "@mui/material";
 import PersonOutlineTwoToneIcon from "@mui/icons-material/PersonOutlineTwoTone";
 import KeyboardArrowDownOutlinedIcon from "@mui/icons-material/KeyboardArrowDownOutlined";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { FaExclamationCircle, FaLock, FaUserCircle } from "react-icons/fa";
 import axios from "axios";
+import { AuthContext } from "../../utils/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export const LoginRegister = () => {
   const [anchorEl, setAnchorEl] = useState(null);
-  const [username, setUsername] = useState(""); // Thay đổi từ email thành username
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [usernameError, setUsernameError] = useState(""); // Thay đổi từ emailError
+  const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // Sử dụng login và logout thay vì setIsLoggedIn từ AuthContext
+  const { isLoggedIn, login, logout } = useContext(AuthContext);
 
   useEffect(() => {
-    const token = sessionStorage.getItem("access_token");
-    if (token) {
-      setIsLoggedIn(true);
+    const token = localStorage.getItem("access_token");
+    const userData = localStorage.getItem("userData");
+    if (token && userData) {
+      login(token, JSON.parse(userData));
     }
   }, []);
 
@@ -38,19 +43,17 @@ export const LoginRegister = () => {
     setAnchorEl(null);
   };
 
-  const validateUsername = (username) => {
-    const re = /^[a-zA-Z0-9_]{3,20}$/;
-    return re.test(String(username));
+  const validateEmail = (email) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(String(email).toLowerCase());
   };
 
-  const handleUsernameChange = (e) => {
-    setUsername(e.target.value);
-    if (!validateUsername(e.target.value)) {
-      setUsernameError(
-        "Username phải chứa từ 3-20 ký tự, chỉ bao gồm chữ cái, số và dấu gạch dưới!"
-      );
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+    if (!validateEmail(e.target.value)) {
+      setEmailError("Email không hợp lệ! Vui lòng nhập đúng định dạng email.");
     } else {
-      setUsernameError("");
+      setEmailError("");
     }
   };
 
@@ -64,80 +67,49 @@ export const LoginRegister = () => {
   };
 
   const handleLogin = async () => {
-    if (validateUsername(username) && password.length >= 8) {
+    if (validateEmail(email) && password.length >= 8) {
       setIsLoading(true);
       try {
-        // Gọi API đăng nhập với username
         const response = await axios.post(
           "http://localhost:3001/auths/signIn",
-          {
-            username, // Thay đổi từ email thành username
-            password,
-          },
-          {
-            withCredentials: true, // Nếu backend đặt cookie
-          }
+          { email, password },
+          { withCredentials: true }
         );
 
-        // Giả sử API trả về access_token và thông tin người dùng trong response.data
         const { access_token, user: userData } = response.data;
 
-        // Lưu access_token và userData vào sessionStorage
-        sessionStorage.setItem("access_token", access_token);
-        sessionStorage.setItem("userData", JSON.stringify(userData));
+        // Sử dụng login từ AuthContext để lưu token và userData
+        login(access_token, userData);
+        localStorage.setItem("access_token", access_token);
+        localStorage.setItem("userData", JSON.stringify(userData));
 
-        // Cập nhật trạng thái đăng nhập
-        setIsLoggedIn(true);
-
-        // Đóng popover
         handleClose();
       } catch (error) {
         console.error("Login failed:", error);
-        if (
-          error.response &&
-          error.response.data &&
-          error.response.data.message
-        ) {
-          alert(error.response.data.message);
-        } else {
-          alert("Đăng nhập thất bại. Vui lòng thử lại!");
-        }
+        alert("Đăng nhập thất bại. Vui lòng thử lại!");
       } finally {
         setIsLoading(false);
       }
     } else {
-      if (!validateUsername(username))
-        setUsernameError(
-          "Username phải chứa từ 3-20 ký tự, chỉ bao gồm chữ cái, số và dấu gạch dưới!"
+      if (!validateEmail(email))
+        setEmailError(
+          "Email không hợp lệ! Vui lòng nhập đúng định dạng email."
         );
       if (password.length < 8)
         setPasswordError("Mật khẩu phải dài ít nhất 8 ký tự!");
     }
   };
 
-  const handleLogout = async () => {
-    try {
-      // Gọi API logout nếu cần
-      await axios.post(
-        "http://localhost:3001/auths/logout",
-        {},
-        {
-          withCredentials: true, // Nếu backend đặt cookie
-        }
-      );
-
-      // Xóa access_token khỏi sessionStorage
-      sessionStorage.removeItem("access_token");
-
-      // Cập nhật trạng thái đăng nhập
-      setIsLoggedIn(false);
-      // setUser(null);
-    } catch (error) {
-      console.error("Logout failed:", error);
-      alert("Đăng xuất thất bại. Vui lòng thử lại!");
-    }
+  const handleLogout = () => {
+    // Sử dụng logout từ AuthContext để đăng xuất
+    logout();
+    navigate("/");
+    handleClose();
   };
 
+  const navigate = useNavigate();
+
+  const storedUserData = JSON.parse(localStorage.getItem("userData"));
   const ErrorText = styled(Typography)(({ theme }) => ({
     color: theme.palette.error.main,
     fontSize: "0.75rem",
@@ -243,22 +215,37 @@ export const LoginRegister = () => {
         }}
       >
         {isLoggedIn ? (
-          <Box p={2} width="320px" textAlign="center">
+          <Box p={2} width="418px" textAlign="center">
             <Typography variant="h6" gutterBottom>
-              TÀI KHOẢN CỦA BẠN
+              THÔNG TIN TÀI KHOẢN
             </Typography>
             <Typography variant="body2" color="textSecondary" gutterBottom>
-              Chào mừng bạn đến với trang của mình!
+              Tên: {storedUserData.fullName}
             </Typography>
-            <Button
-              fullWidth
-              variant="contained"
-              onClick={handleLogout}
-              style={{ marginTop: 16 }}
-              color="secondary"
-            >
-              Đăng Xuất
-            </Button>
+            <Typography variant="body2" color="textSecondary" gutterBottom>
+              Email: {storedUserData.email}
+            </Typography>
+            <Box sx={{ display: "flex", gap: 1 }}>
+              <Button
+                variant="contained"
+                onClick={() => {
+                  navigate(`/account`);
+                  handleClose();
+                }}
+                style={{ marginTop: 16, width: "100%" }}
+                color="secondary"
+              >
+                Xem chi tiết
+              </Button>
+              <Button
+                variant="contained"
+                onClick={handleLogout}
+                style={{ marginTop: 16, width: "100%" }}
+                color="secondary"
+              >
+                Đăng Xuất
+              </Button>
+            </Box>
           </Box>
         ) : (
           <Box p={2} width="320px" textAlign="center">
@@ -266,25 +253,25 @@ export const LoginRegister = () => {
               ĐĂNG NHẬP TÀI KHOẢN
             </Typography>
             <Typography variant="body2" color="textSecondary" gutterBottom>
-              Nhập username và mật khẩu của bạn:
+              Nhập email và mật khẩu của bạn:
             </Typography>
             <TextField
               fullWidth
               margin="normal"
-              label="Username" // Thay đổi từ "Email" thành "Username"
+              label="Email"
               variant="outlined"
-              value={username}
-              onChange={handleUsernameChange}
-              error={!!usernameError} // Thay đổi từ emailError
+              value={email}
+              onChange={handleEmailChange}
+              error={!!emailError}
               InputProps={{
                 startAdornment: <FaUserCircle style={{ marginRight: 8 }} />,
               }}
-              aria-describedby="username-error"
+              aria-describedby="email-error"
             />
-            {usernameError && (
-              <ErrorText id="username-error">
+            {emailError && (
+              <ErrorText id="email-error">
                 <FaExclamationCircle style={{ marginRight: 4 }} />
-                {usernameError}
+                {emailError}
               </ErrorText>
             )}
             <TextField

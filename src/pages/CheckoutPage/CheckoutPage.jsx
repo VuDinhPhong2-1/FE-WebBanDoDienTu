@@ -129,7 +129,7 @@ const CustomInput = styled.input`
 `;
 
 const CheckoutPage = () => {
-  const userData = sessionStorage.getItem("userData");
+  const userData = localStorage.getItem("userData");
   const parsedUserData = userData ? JSON.parse(userData) : null;
   const navigate = useNavigate();
   const location = useLocation();
@@ -248,25 +248,29 @@ const CheckoutPage = () => {
           quantity: product.quantity,
         })),
       };
-      const response = await fetchWithAuth("http://localhost:3001/orders", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(orderData),
-      });
+
+      // Gọi API để tạo đơn hàng
+      const { response, data } = await fetchWithAuth(
+        "http://localhost:3001/orders",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(orderData),
+        }
+      );
 
       if (response.ok) {
-        const responseData = await response.json();
-        const orderId = responseData.orderId;
+        const orderId = data.orderId;
 
         if (
           selectedPaymentMethod === "bank" &&
           selectedBankOption === "stripe"
         ) {
-          const stripeSession = await fetchWithAuth(
-            "http://localhost:3001/stripe/checkout",
-            {
+          // Nếu người dùng chọn thanh toán qua ngân hàng với Stripe, tạo phiên giao dịch Stripe
+          const { response: stripeResponse, data: sessionData } =
+            await fetchWithAuth("http://localhost:3001/stripe/checkout", {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
@@ -285,19 +289,16 @@ const CheckoutPage = () => {
                   quantity: product.quantity,
                 })),
               }),
-            }
-          );
+            });
 
-          const sessionData = await stripeSession.json();
-          if (sessionData.url) {
+          if (stripeResponse.ok && sessionData.url) {
             window.location.href = sessionData.url;
           }
         } else {
           navigate(`/order-success/${orderId}`);
         }
       } else {
-        const errorResponse = await response.json();
-        console.log("errorResponse", errorResponse);
+        console.log("errorResponse", data);
         alert("Vui lòng đăng nhập để thanh toán!");
       }
     }

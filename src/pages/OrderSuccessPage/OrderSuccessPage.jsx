@@ -112,8 +112,7 @@ const OrderSuccessPage = () => {
   useEffect(() => {
     const fetchOrderData = async () => {
       try {
-        // Gọi API để lấy chi tiết đơn hàng dựa trên orderId
-        const response = await fetchWithAuth(
+        const { response, data } = await fetchWithAuth(
           `http://localhost:3001/orders/details/${orderId}`,
           {
             method: "GET",
@@ -121,8 +120,7 @@ const OrderSuccessPage = () => {
         );
 
         if (response.ok) {
-          const data = await response.json();
-          setOrderData(data); // Cập nhật state với dữ liệu đơn hàng
+          setOrderData(data);
         } else {
           console.log("Có lỗi xảy ra khi lấy chi tiết đơn hàng");
         }

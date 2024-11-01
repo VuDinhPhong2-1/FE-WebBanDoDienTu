@@ -107,30 +107,28 @@ function CartPage({ updateCartCount }) {
     }
 
     try {
-      // Sử dụng fetchWithAuth để gọi API xác thực
       const response = await fetchWithAuth(
         "http://localhost:3001/auths/protected",
         {
           method: "GET",
         }
       );
+      console.log("Response OK:", response.response.ok); // Kiểm tra trạng thái phản hồi
 
-      // Nếu xác thực thành công, điều hướng đến trang checkout
-      if (response.ok) {
+      if (response.response.ok) {
         const productsWithQuantity = cart.map((item) => ({
           productId: item.productId,
           quantity: item.quantity,
         }));
         navigate("/checkout", { state: { productsWithQuantity } });
       } else {
-        // Nếu không thành công, điều hướng đến trang đăng nhập
         alert("Bạn cần đăng nhập để thanh toán");
         navigate("/login");
       }
     } catch (error) {
-      // Xử lý lỗi nếu có
       console.error("Lỗi khi xác thực:", error);
-      alert("Có lỗi xảy ra, vui lòng thử lại.");
+      alert("Đã xảy ra lỗi. Vui lòng đăng nhập lại!");
+      navigate("/login");
     }
   };
 
@@ -199,7 +197,8 @@ function CartPage({ updateCartCount }) {
               sx={{
                 display: "flex",
                 alignItems: "center",
-                maxWidth: "600px", width: "100%"
+                maxWidth: "600px",
+                width: "100%",
               }}
             >
               <img

@@ -1,7 +1,9 @@
 import { Box } from "@mui/material";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { ProductSlider } from "../../components/Home/Slider";
 import { ProductList } from "../../components/Home/ProductList";
+import { AuthContext } from "../../utils/AuthContext";
+import Cookies from "js-cookie";
 
 export const HomePage = () => {
   const [laptopProducts, setLaptopProducts] = useState([]);
@@ -10,8 +12,21 @@ export const HomePage = () => {
   const [laptopCategories, setLaptopCategories] = useState([]);
   const [pcCategories, setPCCategories] = useState([]);
   const [screenCategories, setScreenCategories] = useState([]);
+  const { login } = useContext(AuthContext);
 
-  // Call API for laptops
+  useEffect(() => {
+    const token = Cookies.get("access_token");
+    const user = JSON.parse(Cookies.get("user") || "{}");
+
+    if (token) {
+      login(token, user);
+    }
+  }, []);
+
+  const limit = 10;
+  const page = 1;
+
+  // Call API for laptops, PCs, and screens nếu access_token hợp lệ
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -62,8 +77,6 @@ export const HomePage = () => {
     fetchData();
   }, []);
 
-  const limit = 10;
-  const page = 1;
   return (
     <Box
       sx={{
