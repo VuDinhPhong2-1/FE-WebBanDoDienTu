@@ -1,0 +1,17 @@
+.admin-dashboard {
+  grid-area: main;
+  color: #1791ba;
+
+  & .title {
+    display: flex;
+    gap: 10px;
+    & svg {
+      font-size: 1rem;
+    }
+    & a {
+      text-decoration: none;
+      font-size: 1rem;
+      color: #1791ba;
+    }
+  }
+}

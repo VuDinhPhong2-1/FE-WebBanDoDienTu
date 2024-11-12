@@ -10,7 +10,6 @@ import CheckBoxOutlinedIcon from "@mui/icons-material/CheckBoxOutlined";
 import CheckBoxOutlineBlankOutlinedIcon from "@mui/icons-material/CheckBoxOutlineBlankOutlined";
 import { useState, useEffect } from "react";
 
-// Styled Container for filter
 const Container = styled(Box)`
   max-width: 290px;
   width: 100%;
@@ -32,10 +31,8 @@ const Container = styled(Box)`
 export const FilterProduct = ({ categories, onCategoryChange }) => {
   const [category, setCategory] = useState([]);
 
-  // Cập nhật trạng thái khi nhận được categories mới từ props
   useEffect(() => {
     if (categories.length > 0) {
-      // Bảo toàn trạng thái 'checked' cũ
       const updatedCategories = categories.map((cat) => {
         const existingCategory = category.find((c) => c.name === cat.name);
         return {
@@ -52,7 +49,6 @@ export const FilterProduct = ({ categories, onCategoryChange }) => {
     updatedCategories[index].checked = !updatedCategories[index].checked;
     setCategory(updatedCategories);
 
-    // Gửi các danh mục được chọn lên CategoryPage
     const selectedCategories = updatedCategories
       .filter((cat) => cat.checked)
       .map((cat) => cat.name);
@@ -78,7 +74,7 @@ export const FilterProduct = ({ categories, onCategoryChange }) => {
                   checked={category.checked}
                   icon={<CheckBoxOutlineBlankOutlinedIcon />}
                   checkedIcon={<CheckBoxOutlinedIcon />}
-                  onChange={() => handleCategoryChange(index)} // Xử lý khi thay đổi checkbox
+                  onChange={() => handleCategoryChange(index)} 
                 />
               }
             />

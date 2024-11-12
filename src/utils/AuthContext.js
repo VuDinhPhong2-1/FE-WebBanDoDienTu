@@ -24,15 +24,23 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = async () => {
-    await axios.post(
-      "http://localhost:3001/auths/logout",
-      {},
-      { withCredentials: true }
-    );
-    localStorage.removeItem("access_token");
-    localStorage.removeItem("userData");
-    setIsLoggedIn(false);
-    setUserData(null);
+    try {
+      await axios.post(
+        "http://localhost:3001/auths/logout",
+        {},
+        { withCredentials: true }
+      );
+      localStorage.removeItem("access_token");
+      localStorage.removeItem("userData");
+      setIsLoggedIn(false);
+      setUserData(null);
+    } catch (error) {
+      alert("Bạn cần phải đăng nhập lại");
+      localStorage.removeItem("access_token");
+      localStorage.removeItem("userData");
+      setIsLoggedIn(false);
+      setUserData(null);
+    }
   };
 
   return (

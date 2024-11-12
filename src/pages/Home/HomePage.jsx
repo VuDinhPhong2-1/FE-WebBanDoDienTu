@@ -26,11 +26,9 @@ export const HomePage = () => {
   const limit = 10;
   const page = 1;
 
-  // Call API for laptops, PCs, and screens nếu access_token hợp lệ
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Laptops
         const laptopCategoriesResponse = await fetch(
           "http://localhost:3001/categories/children/Laptop"
         );
@@ -44,7 +42,6 @@ export const HomePage = () => {
         const laptopProductsData = await laptopProductsResponse.json();
         setLaptopProducts(laptopProductsData);
 
-        // PCs
         const pcCategoriesResponse = await fetch(
           `http://localhost:3001/categories/children/pc`
         );
@@ -57,7 +54,6 @@ export const HomePage = () => {
         const pcProductsData = await pcProductsResponse.json();
         setPCProducts(pcProductsData);
 
-        // Screens
         const screenCategoriesResponse = await fetch(
           `http://localhost:3001/categories/children/Màn hình`
         );

@@ -2,7 +2,7 @@ import { Box, Button, Typography, TextField, Alert } from "@mui/material";
 import React, { useState, useContext, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { AuthContext } from "../../utils/AuthContext";
 
 const Container = styled(Box)`
@@ -39,7 +39,6 @@ function LoginPage() {
   const navigate = useNavigate();
   const { login, isLoggedIn } = useContext(AuthContext);
 
-  // Kiểm tra trạng thái đăng nhập và điều hướng nếu đã đăng nhập
   useEffect(() => {
     if (isLoggedIn) {
       navigate("/");
@@ -100,15 +99,24 @@ function LoginPage() {
         >
           Đăng nhập
         </Button>
-        <Box sx={{ width: "100%", display: "flex", gap: "10px" }}>
+        <Box sx={{ width: "100%", display: "flex", gap: "10px", justifyContent:"center" }}>
           <Button
             variant="contained"
-            sx={{ width: "100%", background: "darkred" }}
+            sx={{ width: "200px", background: "darkred" }}
             onClick={handleGoogleLogin}
           >
             Đăng nhập với Google
           </Button>
         </Box>
+        <Typography variant="body2" sx={{ mt: 2, textAlign: "center" }}>
+          <Link to="/forgot-password" style={{ textDecoration: "none", color: "black" }}>
+            Quên mật khẩu?
+          </Link>
+          {" hoặc "}
+          <Link to="/register" style={{ textDecoration: "none", color: "black" }}>
+            Đăng ký
+          </Link>
+        </Typography>
       </FormLogin>
     </Container>
   );

@@ -1,7 +1,7 @@
 import { Box, Typography, Avatar, Grid } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { fetchWithAuth } from "../../utils/authFetch";
+import fetchWithAuth from "../../utils/authFetch"; // Sửa lại import
 
 const Container = styled(Box)`
   width: 100%;
@@ -39,9 +39,13 @@ function AccountInfo() {
 
   async function fetchUsers() {
     try {
-      const { data } = await fetchWithAuth("http://localhost:3001/users/", {
-        method: "GET",
-      });
+      const { data } = await fetchWithAuth(
+        "/login",
+        "http://localhost:3001/users/",
+        {
+          method: "GET",
+        }
+      );
       setUserData(data);
     } catch (error) {
       console.error("Error fetching users:", error);

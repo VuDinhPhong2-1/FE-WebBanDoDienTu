@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Box, Button, Typography } from "@mui/material";
 import styled from "styled-components";
 import { useNavigate, useParams } from "react-router-dom";
-import { fetchWithAuth } from "../../utils/authFetch";
+import fetchWithAuth from "../../utils/authFetch";
 
 const CustomButton = styled(Button)({
   backgroundColor: "#338dbc",
@@ -50,7 +50,6 @@ const ProductSummary = styled(Box)`
   padding: 10px 0;
 `;
 
-// Chuyển đổi trạng thái thanh toán sang tiếng Việt
 const translatePaymentStatus = (status) => {
   switch (status) {
     case "pending":
@@ -78,7 +77,6 @@ const translatePaymentStatus = (status) => {
   }
 };
 
-// Chuyển đổi trạng thái đơn hàng sang tiếng Việt
 const translateOrderStatus = (status) => {
   switch (status) {
     case "Pending":
@@ -104,15 +102,15 @@ const OrderSuccessPage = () => {
   const navigate = useNavigate();
   const { orderId } = useParams();
   const [orderData, setOrderData] = useState({
-    orderDetails: [], // Giá trị mặc định là một mảng rỗng
-    totalAmount: 0, // Giá trị mặc định cho totalAmount
-    order: {}, // Thêm đối tượng mặc định cho `order`
+    orderDetails: [],
+    totalAmount: 0,
+    order: {},
   });
 
   useEffect(() => {
     const fetchOrderData = async () => {
       try {
-        const { response, data } = await fetchWithAuth(
+        const { response, data } = await fetchWithAuth("/login",
           `http://localhost:3001/orders/details/${orderId}`,
           {
             method: "GET",
@@ -134,7 +132,6 @@ const OrderSuccessPage = () => {
     }
   }, [orderId]);
 
-  // Nếu chưa có dữ liệu, có thể hiển thị loading
   if (!orderData) {
     return <Typography>Loading...</Typography>;
   }
@@ -144,7 +141,6 @@ const OrderSuccessPage = () => {
       orderData.orderDetails.orderDetails &&
       orderData.orderDetails.orderDetails.length > 0
     ) {
-      // Sử dụng reduce để tính tổng giá trị đơn hàng
       const sumPrice = orderData.orderDetails.orderDetails.reduce(
         (acc, item) => {
           return (
@@ -226,7 +222,7 @@ const OrderSuccessPage = () => {
                 {/* Hiển thị hình ảnh sản phẩm nếu có */}
                 {item.images && item.images.length > 0 && (
                   <img
-                    src={item.images[0]} // Hiển thị hình ảnh đầu tiên
+                    src={item.images[0]}  
                     alt={item.name}
                     style={{
                       width: "50px",

@@ -13,7 +13,7 @@ import { Logo } from "../../components/NavBar/Logo";
 import LocationForm from "../../components/Checkout/LocationForm";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { fetchWithAuth } from "../../utils/authFetch";
+import fetchWithAuth from "../../utils/authFetch";
 import { clearCartCookies } from "../../utils/clearCartCookies";
 
 const CustomButton = styled(Button)({
@@ -223,13 +223,13 @@ const CheckoutPage = () => {
     const value = e.target.value;
     setSelectedPaymentMethod(value);
     setShowBankOptions(value === "bank");
-    console.log("Selected Payment Method:", value); // Log phương thức thanh toán đã chọn
+    console.log("Selected Payment Method:", value); 
   };
 
   const handleBankOptionChange = (e) => {
     const value = e.target.value;
     setSelectedBankOption(value);
-    console.log("Selected Bank Option:", value); // Log tùy chọn ngân hàng đã chọn
+    console.log("Selected Bank Option:", value); 
   };
 
   const handleSubmit = async () => {
@@ -249,8 +249,7 @@ const CheckoutPage = () => {
         })),
       };
 
-      // Gọi API để tạo đơn hàng
-      const { response, data } = await fetchWithAuth(
+      const { response, data } = await fetchWithAuth("/login",
         "http://localhost:3001/orders",
         {
           method: "POST",
@@ -268,9 +267,8 @@ const CheckoutPage = () => {
           selectedPaymentMethod === "bank" &&
           selectedBankOption === "stripe"
         ) {
-          // Nếu người dùng chọn thanh toán qua ngân hàng với Stripe, tạo phiên giao dịch Stripe
           const { response: stripeResponse, data: sessionData } =
-            await fetchWithAuth("http://localhost:3001/stripe/checkout", {
+            await fetchWithAuth("/login","http://localhost:3001/stripe/checkout", {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",

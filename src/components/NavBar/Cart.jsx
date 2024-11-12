@@ -22,7 +22,7 @@ export const Cart = ({ cartItemsCount }) => {
         badgeContent={cartItemsCount}
         sx={{
           "& .MuiBadge-badge": {
-            backgroundColor: "#F70000", // Màu sắc của badge
+            backgroundColor: "#F70000", 
           },
         }}
       >

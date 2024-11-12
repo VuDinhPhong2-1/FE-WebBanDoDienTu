@@ -7,8 +7,8 @@ export const Search = () => {
   const [searchValue, setSearchValue] = useState("");
   const [products, setProducts] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
-  const navigate = useNavigate(); // Lấy hàm điều hướng
-  const searchRef = useRef(null); // Tạo ref cho thành phần tìm kiếm
+  const navigate = useNavigate();
+  const searchRef = useRef(null);
 
   const handleSearch = (e) => {
     setSearchValue(e.target.value);
@@ -27,6 +27,7 @@ export const Search = () => {
         }
         const data = await response.json();
         setProducts(data);
+        console.log("123");
         setShowDropdown(true);
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -39,20 +40,22 @@ export const Search = () => {
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       performSearch();
+      setSearchValue("");
     }
   };
 
   const handleButtonClick = () => {
     performSearch();
+    setSearchValue("");
   };
 
   const handleProductClick = (product) => {
-    console.log("Product clicked:", product); // In ra thông tin sản phẩm
-    navigate(`/product/${product.productId}`); // Điều hướng đến trang chi tiết sản phẩm
-    setShowDropdown(false); // Ẩn dropdown sau khi điều hướng
+    console.log("Product clicked:", product);
+    navigate(`/product/${product.productId}`);
+    setShowDropdown(false);
+    setProducts([]);
   };
 
-  // Sử dụng useEffect để lắng nghe các cú nhấp chuột bên ngoài thành phần tìm kiếm
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (searchRef.current && !searchRef.current.contains(event.target)) {
@@ -68,14 +71,13 @@ export const Search = () => {
 
   return (
     <Box
-      ref={searchRef} // Gắn ref vào thành phần tìm kiếm
+      ref={searchRef}
       sx={{
         position: "relative",
         width: "100%",
         maxWidth: "427px",
       }}
     >
-      {/* Backdrop khi dropdown mở */}
       {showDropdown && (
         <Box
           sx={{
@@ -100,7 +102,7 @@ export const Search = () => {
           padding: "0 3px",
           borderRadius: "4px",
           position: "relative",
-          zIndex: 2, // Đảm bảo ô input nằm trên backdrop
+          zIndex: 2,
         }}
       >
         <input
@@ -112,7 +114,7 @@ export const Search = () => {
             height: "40px",
             padding: "0px 10px",
             boxSizing: "border-box",
-            borderRadius: "4px 0 0 4px", // Bo tròn góc trái
+            borderRadius: "4px 0 0 4px",
             border: "1px solid white",
             backgroundColor: "#f5f5f5",
             outline: "none",
@@ -147,13 +149,13 @@ export const Search = () => {
           maxHeight: "300px",
           position: "absolute",
           top: "100%",
-          zIndex: 3, // Đảm bảo dropdown nằm trên backdrop
+          zIndex: 3,
           height: "auto",
           overflowY: "auto",
           background: "white",
           paddingBottom: "24px",
           borderRadius: "0 0 4px 4px",
-          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Thêm bóng đổ để nổi bật
+          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
         }}
       >
         <Typography
@@ -171,7 +173,7 @@ export const Search = () => {
         </Typography>
         {products.map((product, index) => (
           <Box
-            onClick={() => handleProductClick(product)} // Gọi hàm khi nhấp vào sản phẩm
+            onClick={() => handleProductClick(product)}
             key={index}
             sx={{
               display: "flex",
@@ -214,9 +216,9 @@ export const Search = () => {
                   WebkitBoxOrient: "vertical",
                   overflow: "hidden",
                   fontSize: {
-                    xs: "12px", // Kích thước màn hình nhỏ (mobile)
-                    sm: "14px", // Kích thước màn hình trung bình (tablet)
-                    md: "16px", // Kích thước
+                    xs: "12px",
+                    sm: "14px",
+                    md: "16px",
                   },
                 }}
               >
@@ -225,7 +227,14 @@ export const Search = () => {
                   : product.name}
               </Typography>
               {/* Price */}
-              <Box sx={{ display: "flex", gap: 2, marginTop: 1,alignItems: "center" }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  gap: 2,
+                  marginTop: 1,
+                  alignItems: "center",
+                }}
+              >
                 {product.discountedPrice < product.originalPrice && (
                   <Typography
                     variant="h6"
@@ -234,10 +243,10 @@ export const Search = () => {
                       textAlign: "center",
                       color: "red",
                       fontSize: {
-                        xs: "10px", // Kích thước màn hình nhỏ (mobile)
-                        sm: "12px", // Kích thước màn hình trung bình (tablet)
-                        md: "14px", // Kích thước màn hình lớn (desktop)
-                        lg: "16px", // Màn hình rất lớn
+                        xs: "10px",
+                        sm: "12px",
+                        md: "14px",
+                        lg: "16px",
                       },
                     }}
                   >
@@ -252,10 +261,10 @@ export const Search = () => {
                         ? "line-through"
                         : "none",
                     fontSize: {
-                      xs: "10px", // Kích thước màn hình nhỏ (mobile)
-                      sm: "12px", // Kích thước màn hình trung bình (tablet)
-                      md: "14px", // Kích thước màn hình lớn (desktop)
-                      lg: "16px", // Màn hình rất lớn
+                      xs: "10px",
+                      sm: "12px",
+                      md: "14px",
+                      lg: "16px",
                     },
                     textJustify: "center",
                   }}

@@ -14,7 +14,7 @@ import { useState, useEffect, useContext } from "react";
 import { FaExclamationCircle, FaLock, FaUserCircle } from "react-icons/fa";
 import axios from "axios";
 import { AuthContext } from "../../utils/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export const LoginRegister = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -24,7 +24,6 @@ export const LoginRegister = () => {
   const [passwordError, setPasswordError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  // Sử dụng login và logout thay vì setIsLoggedIn từ AuthContext
   const { isLoggedIn, login, logout } = useContext(AuthContext);
 
   useEffect(() => {
@@ -78,7 +77,6 @@ export const LoginRegister = () => {
 
         const { access_token, user: userData } = response.data;
 
-        // Sử dụng login từ AuthContext để lưu token và userData
         login(access_token, userData);
         localStorage.setItem("access_token", access_token);
         localStorage.setItem("userData", JSON.stringify(userData));
@@ -101,7 +99,6 @@ export const LoginRegister = () => {
   };
 
   const handleLogout = () => {
-    // Sử dụng logout từ AuthContext để đăng xuất
     logout();
     navigate("/");
     handleClose();
@@ -191,6 +188,7 @@ export const LoginRegister = () => {
             }}
           >
             <Typography variant="body2">Đăng Nhập</Typography>
+
             <Box sx={{ display: "flex", alignItems: "center" }}>
               <Typography variant="body2">Đăng Ký</Typography>
               <KeyboardArrowDownOutlinedIcon
@@ -306,7 +304,7 @@ export const LoginRegister = () => {
             <Box mt={2} display="flex" justifyContent="space-between">
               <Button
                 color="primary"
-                onClick={() => console.log("Register clicked")}
+                onClick={() => navigate('/register')}
               >
                 Tạo tài khoản
               </Button>

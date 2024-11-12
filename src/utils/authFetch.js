@@ -1,8 +1,8 @@
-export async function fetchWithAuth(url, options = {}) {
+export default async function fetchWithAuth(redirectURL, url, options = {}) {
   let token = localStorage.getItem("access_token");
 
   if (!token) {
-    window.location.href = "/login";
+    window.location.href = redirectURL;
     return;
   }
 
@@ -21,12 +21,12 @@ export async function fetchWithAuth(url, options = {}) {
         "http://localhost:3001/auths/refresh-token",
         {
           method: "POST",
-          credentials: "include", // Gửi refresh_token trong cookie
+          credentials: "include",
         }
       );
 
       if (!refreshResponse.ok) {
-        window.location.href = "/login";
+        window.location.href = redirectURL;
         return;
       }
 
@@ -42,11 +42,15 @@ export async function fetchWithAuth(url, options = {}) {
         },
       });
     }
-    const data = await response.json();
-    // Trả về toàn bộ đối tượng response để sử dụng các thuộc tính như response.ok
-    return { response, data };
-  } catch (error) {
-    console.error("API request failed:", error);
-    throw error;
+    if (response.ok) {
+      const data = await response.json();
+      return { response, data };
+    } else {
+      const data = await response.json();
+      throw new Error(data, "Access denied: insufficient permissions");
+    }
+  } catch (err) {
+    console.error("API request failed:", err);
+    throw err;
   }
 }

@@ -25,7 +25,6 @@ const sliderImages = [
   },
 ];
 
-// Custom Next Arrow Component
 const NextArrow = (props) => {
   const { onClick } = props;
   return (
@@ -55,7 +54,6 @@ const NextArrow = (props) => {
   );
 };
 
-// Custom Prev Arrow Component
 const PrevArrow = (props) => {
   const { onClick } = props;
   return (

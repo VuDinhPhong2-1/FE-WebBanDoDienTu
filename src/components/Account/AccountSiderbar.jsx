@@ -28,7 +28,6 @@ const AcountLeftHeader = styled(Box)`
   padding: 0 15px 20px 15px;
 `;
 
-// Định nghĩa NavigateItem với prop $isactive
 const NavigateItem = styled(Box)`
   display: flex;
   border-radius: 50px;

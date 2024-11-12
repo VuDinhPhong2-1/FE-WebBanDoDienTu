@@ -5,12 +5,12 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import DeleteIcon from "@mui/icons-material/Delete";
 import axios from "axios";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
-import { fetchWithAuth } from "../../utils/authFetch";
-
+import { useNavigate } from "react-router-dom";
+import fetchWithAuth from "../../utils/authFetch";
+import { clearCartCookies } from "../../utils/clearCartCookies";
 function CartPage({ updateCartCount }) {
   const [cart, setCart] = useState([]);
-  const navigate = useNavigate(); // Sử dụng useNavigate để điều hướng
+  const navigate = useNavigate();
 
   const getCartFromCookie = () => {
     const cartData = Cookies.get("cart");
@@ -20,10 +20,8 @@ function CartPage({ updateCartCount }) {
   useEffect(() => {
     const savedCart = getCartFromCookie();
     if (savedCart.length > 0) {
-      // Lấy danh sách productIds từ giỏ hàng trong cookie
       const productIds = savedCart.map((item) => item.id);
 
-      // Gọi API để lấy thông tin sản phẩm dựa trên danh sách productIds
       axios
         .get(`http://localhost:3001/products/by-ids`, {
           params: { ids: productIds.join(",") },
@@ -31,7 +29,6 @@ function CartPage({ updateCartCount }) {
         .then((response) => {
           const productsFromAPI = response.data;
 
-          // Ghép thông tin từ API với số lượng trong giỏ hàng từ cookie
           const updatedCart = savedCart.map((item) => {
             const product = productsFromAPI.find(
               (prod) => prod.productId === item.id
@@ -53,7 +50,6 @@ function CartPage({ updateCartCount }) {
     Cookies.set("cart", JSON.stringify(updatedCart));
   };
 
-  // Tăng số lượng sản phẩm
   const increaseQuantity = (productId) => {
     const updatedCart = cart.map((item) =>
       item.productId === productId
@@ -65,7 +61,6 @@ function CartPage({ updateCartCount }) {
     updateCartCount();
   };
 
-  // Giảm số lượng sản phẩm
   const decreaseQuantity = (productId) => {
     const updatedCart = cart.map((item) =>
       item.productId === productId && item.quantity > 1
@@ -84,7 +79,6 @@ function CartPage({ updateCartCount }) {
     updateCartCount();
   };
 
-  // Tính tổng tiền
   const totalAmount = cart.reduce(
     (acc, item) =>
       acc +
@@ -94,10 +88,8 @@ function CartPage({ updateCartCount }) {
     0
   );
 
-  // Tính tổng số sản phẩm
   const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
 
-  // Hàm xử lý điều hướng đến trang checkout
   const handleCheckout = async () => {
     if (cart.length === 0) {
       alert(
@@ -105,22 +97,24 @@ function CartPage({ updateCartCount }) {
       );
       return;
     }
-
+  
     try {
-      const response = await fetchWithAuth(
+      const response = await fetchWithAuth("/login",
         "http://localhost:3001/auths/protected",
         {
           method: "GET",
         }
       );
-      console.log("Response OK:", response.response.ok); // Kiểm tra trạng thái phản hồi
-
       if (response.response.ok) {
         const productsWithQuantity = cart.map((item) => ({
           productId: item.productId,
           quantity: item.quantity,
         }));
         navigate("/checkout", { state: { productsWithQuantity } });
+  
+        clearCartCookies();
+        setCart([]);
+        updateCartCount();
       } else {
         alert("Bạn cần đăng nhập để thanh toán");
         navigate("/login");
@@ -131,6 +125,7 @@ function CartPage({ updateCartCount }) {
       navigate("/login");
     }
   };
+  
 
   return (
     <Box
@@ -295,7 +290,7 @@ function CartPage({ updateCartCount }) {
           padding: "15px",
           height: "fit-content",
           margin: "30px 0",
-          boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)", // Tạo shadow nhẹ để nổi bật
+          boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)", 
           borderRadius: "5px",
         }}
       >

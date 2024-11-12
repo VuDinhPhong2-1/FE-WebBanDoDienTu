@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { fetchWithAuth } from "../../utils/authFetch";
+import fetchWithAuth from "../../utils/authFetch";
 import { DataGrid } from "@mui/x-data-grid";
 import Paper from "@mui/material/Paper";
 import moment from "moment";
@@ -22,27 +22,31 @@ const paginationModel = { page: 0, pageSize: 5 };
 
 function OrderInfo() {
   const [orderData, setOrderData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const { data } = await fetchWithAuth("/",
+          "http://localhost:3001/orders/user-orders",
+          {
+            method: "GET",
+          }
+        );
+        setOrderData(data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching orders:", error);
+        setError("Không thể tải dữ liệu đơn hàng.");
+        setLoading(false);
+      }
+    };
+
     fetchOrders();
   }, []);
 
-  async function fetchOrders() {
-    try {
-      const { response, data } = await fetchWithAuth(
-        "http://localhost:3001/orders/user-orders",
-        {
-          method: "GET",
-        }
-      );
-      setOrderData(data);
-    } catch (error) {
-      console.error("Error fetching orders:", error);
-    }
-  }
-
-  // Định nghĩa columns bên trong OrderInfo để có thể sử dụng navigate
   const columns = [
     {
       field: "orderId",
@@ -59,7 +63,7 @@ function OrderInfo() {
             alignItems: "center",
             height: "100%",
             justifyContent: "center",
-            cursor: "pointer", // Thêm con trỏ chuột để hiển thị là có thể nhấp vào
+            cursor: "pointer",
           }}
         >
           {`#XGEAR${params.value}`}
@@ -109,6 +113,9 @@ function OrderInfo() {
       headerAlign: "center",
     },
   ];
+
+  if (loading) return <div>Đang tải dữ liệu...</div>;
+  if (error) return <div>{error}</div>;
 
   return (
     <Container>

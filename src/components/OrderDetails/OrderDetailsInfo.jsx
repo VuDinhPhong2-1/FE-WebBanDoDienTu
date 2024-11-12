@@ -1,10 +1,57 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Box, Typography } from "@mui/material";
-import { fetchWithAuth } from "../../utils/authFetch";
+import fetchWithAuth from "../../utils/authFetch";
 import { useParams } from "react-router-dom";
 
-// Container cho toàn bộ phần chi tiết đơn hàng
+const translatePaymentStatus = (status) => {
+  switch (status) {
+    case "pending":
+      return "Chưa thanh toán";
+    case "paid":
+      return "Đã thanh toán";
+    case "failed":
+      return "Thanh toán thất bại";
+    case "refunded":
+      return "Đã hoàn tiền";
+    case "partially_paid":
+      return "Thanh toán một phần";
+    case "declined":
+      return "Từ chối thanh toán";
+    case "authorized":
+      return "Được ủy quyền";
+    case "voided":
+      return "Đã hủy thanh toán";
+    case "in_progress":
+      return "Đang xử lý thanh toán";
+    case "chargeback":
+      return "Tranh chấp thanh toán";
+    default:
+      return "Trạng thái không xác định";
+  }
+};
+
+const translateOrderStatus = (status) => {
+  switch (status) {
+    case "Pending":
+      return "Chờ xử lý";
+    case "Processing":
+      return "Đang xử lý";
+    case "Shipped":
+      return "Đã giao cho vận chuyển";
+    case "Delivered":
+      return "Đã giao hàng";
+    case "Canceled":
+      return "Đã hủy";
+    case "Returned":
+      return "Đã trả hàng";
+    case "Completed":
+      return "Hoàn tất";
+    default:
+      return "Trạng thái không xác định";
+  }
+};
+
 const Container = styled(Box)`
   width: 100%;
   max-width: 930px;
@@ -17,17 +64,16 @@ const Container = styled(Box)`
   flex-direction: column;
 `;
 
-// Các thành phần cho bảng
 const StyledTable = styled.table`
   width: 100%;
   border-collapse: collapse;
   margin-top: 15px;
+  font-size: 14px;
 `;
 
 const TableHeader = styled.th`
-  border: 1px solid black;
+  border: 1px solid #ddd;
   padding: 10px;
-  height: 70px;
   text-align: left;
   background-color: #f5f5f5;
   font-weight: bold;
@@ -40,9 +86,24 @@ const TableRow = styled.tr`
 `;
 
 const TableData = styled.td`
-  border: 1px solid black;
+  border: 1px solid #ddd;
   padding: 10px;
   text-align: left;
+`;
+
+const ProductImage = styled.img`
+  width: 58px;
+  height: auto;
+  object-fit: cover;
+`;
+
+const TotalRow = styled.tr`
+  font-weight: bold;
+`;
+
+const StatusRow = styled.tr`
+  font-weight: bold;
+  color: #d9534f;
 `;
 
 function OrderDetailsInfo() {
@@ -57,12 +118,13 @@ function OrderDetailsInfo() {
   async function fetchOrders() {
     try {
       const { data: fetchedOrderData } = await fetchWithAuth(
+        "/",
         `http://localhost:3001/orders/${orderId}`,
         { method: "GET" }
       );
       setOrderData(fetchedOrderData);
 
-      const { data: fetchedOrderDetailsData } = await fetchWithAuth(
+      const { data: fetchedOrderDetailsData } = await fetchWithAuth("/",
         `http://localhost:3001/order-details/${orderId}`,
         { method: "GET" }
       );
@@ -112,11 +174,12 @@ function OrderDetailsInfo() {
         </Typography>
       </Box>
 
-      {/* Bảng chi tiết đơn hàng */}
+      {/* Order details table */}
       <StyledTable>
         <thead>
           <TableRow>
             <TableHeader>STT</TableHeader>
+            <TableHeader>Hình ảnh</TableHeader>
             <TableHeader>Sản phẩm</TableHeader>
             <TableHeader>Đơn giá</TableHeader>
             <TableHeader>Số lượng</TableHeader>
@@ -126,26 +189,61 @@ function OrderDetailsInfo() {
         <tbody>
           {orderDetailsData?.map((item, index) => (
             <TableRow key={item.id || index}>
-              <>
-                <TableData>
-                  <img
-                    src={item.images[0]}
-                    alt={item.productName || "Product Image"}
-                    style={{
-                      width: "58px",
-                      height: "auto",
-                      objectFit: "cover",
-                    }}
-                  />
-                </TableData>
-                <TableData>{item.productName}</TableData>
-                <TableData>{item.unitPrice.toLocaleString()}đ</TableData>
-                <TableData>{item.quantity}</TableData>
-                <TableData>{item.totalPrice.toLocaleString()}đ</TableData>
-              </>
+              <TableData>{index + 1}</TableData>
+              <TableData>
+                <ProductImage
+                  src={item.images[0]}
+                  alt={item.productName || "Product Image"}
+                />
+              </TableData>
+              <TableData>
+                <Typography color="primary" fontWeight="bold">
+                  {item.productName}
+                </Typography>
+                <Typography variant="caption" color="textSecondary">
+                  {item.productCategory}
+                </Typography>
+              </TableData>
+              <TableData>{item.unitPrice.toLocaleString()}đ</TableData>
+              <TableData>{item.quantity}</TableData>
+              <TableData>{item.totalPrice.toLocaleString()}đ</TableData>
             </TableRow>
           ))}
         </tbody>
+        {/* Total Price, Shipping, and Payment Status Rows */}
+        <tfoot>
+          <TotalRow>
+            <TableData colSpan={5} style={{ textAlign: "right" }}>
+              Tổng tiền
+            </TableData>
+            <TableData>
+              {orderData
+                ? orderData.totalAmount.toLocaleString()
+                : "loading..."}
+              đ
+            </TableData>
+          </TotalRow>
+          <StatusRow>
+            <TableData colSpan={5} style={{ textAlign: "right" }}>
+              Trạng thái vận chuyển
+            </TableData>
+            <TableData>
+              {orderData
+                ? translateOrderStatus(orderData.status)
+                : "loading..."}
+            </TableData>
+          </StatusRow>
+          <StatusRow>
+            <TableData colSpan={5} style={{ textAlign: "right" }}>
+              Trạng thái thanh toán
+            </TableData>
+            <TableData>
+              {orderData
+                ? translatePaymentStatus(orderData.paymentStatus)
+                : "loading..."}
+            </TableData>
+          </StatusRow>
+        </tfoot>
       </StyledTable>
     </Container>
   );

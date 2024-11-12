@@ -40,7 +40,6 @@ export const ProductDetailPage = ({ updateCartCount }) => {
   const [openDialog, setOpenDialog] = useState(false);
   const [quantity, setQuantity] = useState(1);
 
-  // Fetch product data
   useEffect(() => {
     const fetchProduct = async () => {
       const response = await fetch(
@@ -52,7 +51,6 @@ export const ProductDetailPage = ({ updateCartCount }) => {
     fetchProduct();
   }, [productId]);
 
-  // Handle image switching
   const handleNextImage = () => {
     if (product && product.images) {
       setCurrentImageIndex((prevIndex) =>
@@ -73,7 +71,6 @@ export const ProductDetailPage = ({ updateCartCount }) => {
     setCurrentImageIndex(index);
   };
 
-  // Handle opening and closing the dialog
   const handleImageClick = () => {
     setOpenDialog(true);
   };
@@ -90,9 +87,7 @@ export const ProductDetailPage = ({ updateCartCount }) => {
     setQuantity((prevQuantity) => (prevQuantity > 1 ? prevQuantity - 1 : 1));
   };
 
-  // Hàm thêm sản phẩm vào giỏ hàng
   const addToCart = () => {
-    // Lấy giỏ hàng từ cookie thay vì localStorage
     const cart = JSON.parse(Cookies.get("cart") || "[]");
     const productToAdd = {
       id: product.productId,
@@ -382,7 +377,7 @@ export const ProductDetailPage = ({ updateCartCount }) => {
                   marginTop: "30px",
                   gap: 1,
                 }}
-                onClick={addToCart} // Thêm hàm xử lý thêm vào giỏ hàng
+                onClick={addToCart} 
               >
                 <Typography
                   sx={{ textTransform: "uppercase", fontWeight: "bold" }}

@@ -1,0 +1,44 @@
+.header {
+  grid-area: header;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  background-color: #181b1e;
+  padding: 0 20px;
+
+  & .toggle {
+    display: none;
+    color: #ced4da;
+    width: 50px;
+    cursor: pointer;
+
+    & svg {
+      color: #ced4da;
+      font-size: 20px;
+    }
+  }
+  & nav {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+
+    & .icon {
+      color: #ced4da;
+      display: flex;
+      width: 30px;
+      font-size: 30px;
+    }
+  }
+}
+
+@media screen and (max-width: 888px) {
+  .header {
+    justify-content: space-between;
+    & .toggle {
+      display: flex;
+      color: #ced4da;
+      width: 50px;
+    }
+  }
+}

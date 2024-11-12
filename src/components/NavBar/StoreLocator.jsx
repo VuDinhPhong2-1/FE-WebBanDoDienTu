@@ -25,7 +25,7 @@ export const StoreLocator = () => {
 
   const handleCityChange = (event) => {
     setCity(event.target.value);
-    setDistrict(""); // Reset district when city changes
+    setDistrict("");
   };
 
   const handleDistrictChange = (event) => {
@@ -61,12 +61,10 @@ export const StoreLocator = () => {
     },
   ];
 
-  // Filter districts based on selected city
   const filteredDistricts = districts.filter(
     (d) => d.cityId === parseInt(city)
   );
 
-  // Filter stores based on selected city and district
   const filteredStores = stores.filter((store) => {
     const storeDistrict = districts.find((d) => d.id === store.districtId);
     return (

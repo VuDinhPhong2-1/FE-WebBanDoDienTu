@@ -16,16 +16,13 @@ const CategoryPage = () => {
       try {
         const encodedCategoryName = encodeURIComponent(categoryName);
 
-        // Fetch child categories
         const categoriesResponse = await fetch(
           `http://localhost:3001/categories/children/${encodedCategoryName}`
         );
         const categoriesData = await categoriesResponse.json();
         setCategories(categoriesData);
 
-        // Fetch products based on selected categories
         if (selectedCategories.length > 0) {
-          // Encode each category individually
           const selectedCategoriesString = selectedCategories
             .map((category) => encodeURIComponent(category))
             .join(",");
@@ -36,7 +33,6 @@ const CategoryPage = () => {
           const productsData = await productsResponse.json();
           setProducts(productsData);
         } else {
-          // Fetch products based on the main category name
           const productsResponse = await fetch(
             `http://localhost:3001/products/category?name=${encodedCategoryName}&page=${page}&limit=${limit}`
           );
@@ -51,7 +47,6 @@ const CategoryPage = () => {
     fetchData();
   }, [categoryName, selectedCategories, page]);
 
-  // Callback để nhận danh mục được chọn từ FilterProduct
   const handleCategoryChange = (selectedCategories) => {
     setSelectedCategories(selectedCategories);
   };
@@ -65,7 +60,7 @@ const CategoryPage = () => {
         background: "#F5F5F5",
         gap: 2,
         overflowX: "hidden",
-        height: "600px",
+        // height: "600px",
         maxHeight: "100%",
       }}
     >

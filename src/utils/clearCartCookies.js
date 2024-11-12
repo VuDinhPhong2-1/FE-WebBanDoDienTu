@@ -1,5 +1,4 @@
 export const clearCartCookies = () => {
-  // Xóa cookie chứa sản phẩm giỏ hàng
   document.cookie.split(";").forEach((cookie) => {
     const eqPos = cookie.indexOf("=");
     const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;

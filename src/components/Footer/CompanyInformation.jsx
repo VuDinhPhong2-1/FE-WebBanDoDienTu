@@ -29,7 +29,7 @@ export const CompanyInformation = () => {
         >
           <img
             src="../../../../logo-web-white_30e3c74436a2411bb27fa7fd58ca82ec_grande.webp"
-            alt="Logo công ty" // Thêm mô tả phù hợp hoặc chuỗi trống nếu chỉ để trang trí
+            alt="Logo công ty"
             style={{ maxWidth: "200px", height: "auto" }}
           />
           <Typography variant="subtitle2">

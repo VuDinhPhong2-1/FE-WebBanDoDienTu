@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 
-// Styled components
 const ProductListWrapper = styled(Box)`
   width: 100%;
   max-width: 1220px;
@@ -46,7 +45,6 @@ const ProductItem = styled(Box)`
   }
 `;
 
-// ProductList component
 export const ProductList = ({ categoryName, categories, products }) => {
   const navigate = useNavigate();
 

@@ -1,0 +1,48 @@
+.sidebar {
+  grid-area: sidebar;
+  display: flex;
+  color: #adb5bd;
+  background-color: #212529;
+  flex-direction: column;
+  padding: 20px;
+  gap: 30px;
+
+  & .title {
+    font-size: 20px;
+    font-weight: bold;
+  }
+  & .list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    & .item {
+      cursor: pointer;
+      &:hover {
+        color: #fff;
+      }
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      & .name {
+        margin-right: auto;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 888px) {
+  .sidebar {
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 300px;
+    bottom: 0;
+    transform: translateX(-100%);
+    z-index: 10;
+    transition: transform 0.5s linear;
+  }
+
+  .sidebar.active {
+    transform: translateX(0);
+  }
+}

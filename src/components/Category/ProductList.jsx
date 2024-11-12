@@ -2,7 +2,6 @@ import { Box, Typography, Grid, Pagination } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-// Styled components
 const ProductListWrapper = styled(Box)`
   width: 100%;
   max-width: 960px;
@@ -45,7 +44,6 @@ const ProductItem = styled(Box)`
   }
 `;
 
-// Component ProductList
 export const ProductList = ({
   categoryName,
   categories,

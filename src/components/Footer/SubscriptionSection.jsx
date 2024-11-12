@@ -61,7 +61,7 @@ export const Subscription = () => {
                 height: "100%",
                 borderRadius: "0px",
                 width: "120px",
-                minWidth: "120px", // Đảm bảo chiều rộng nút luôn cố định
+                minWidth: "120px",
                 color: "white",
                 "&:hover": {
                   background: "darkred",

@@ -11,7 +11,6 @@ const LocationForm = ({ onLocationChange, locationErrors }) => {
   const [selectedWard, setSelectedWard] = useState("");
 
   useEffect(() => {
-    // Fetch data from the GitHub repository
     const fetchData = async () => {
       try {
         const response = await axios.get(
@@ -25,17 +24,15 @@ const LocationForm = ({ onLocationChange, locationErrors }) => {
     fetchData();
   }, []);
 
-  // Handle city change
   const handleCityChange = (e) => {
     const cityName = e.target.value;
-    setSelectedCity(cityName);  // Lưu name thay vì ID
-    const selectedCityData = cities.find((city) => city.Name === cityName); // Lấy dựa trên name
+    setSelectedCity(cityName);  
+    const selectedCityData = cities.find((city) => city.Name === cityName); 
     setDistricts(selectedCityData ? selectedCityData.Districts : []);
-    setWards([]); // Reset wards when city changes
+    setWards([]);
     setSelectedDistrict("");
     setSelectedWard("");
 
-    // Truyền cả name của city
     onLocationChange({
       city: cityName,
       district: "",
@@ -43,17 +40,15 @@ const LocationForm = ({ onLocationChange, locationErrors }) => {
     });
   };
 
-  // Handle district change
   const handleDistrictChange = (e) => {
     const districtName = e.target.value;
-    setSelectedDistrict(districtName);  // Lưu name thay vì ID
+    setSelectedDistrict(districtName);  
     const selectedDistrictData = districts.find(
-      (district) => district.Name === districtName  // Lấy dựa trên name
+      (district) => district.Name === districtName 
     );
     setWards(selectedDistrictData ? selectedDistrictData.Wards : []);
     setSelectedWard("");
 
-    // Truyền cả name của district
     onLocationChange({
       city: selectedCity,
       district: districtName,
@@ -61,12 +56,10 @@ const LocationForm = ({ onLocationChange, locationErrors }) => {
     });
   };
 
-  // Handle ward change
   const handleWardChange = (e) => {
     const wardName = e.target.value;
     setSelectedWard(wardName);  // Lưu name thay vì ID
 
-    // Truyền cả name của ward
     onLocationChange({
       city: selectedCity,
       district: selectedDistrict,

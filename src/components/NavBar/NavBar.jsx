@@ -16,8 +16,8 @@ import { CategoryMenu } from "./CategoryMenu";
 
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
   backgroundColor: "#D91E1E",
-  position: "fixed", // Make it fixed
-  top: 0, // Align to the top
+  position: "fixed", 
+  top: 0,
 }));
 
 const SecondaryNav = styled(Box)(({ theme }) => ({
@@ -26,9 +26,9 @@ const SecondaryNav = styled(Box)(({ theme }) => ({
   height: "37.8px",
   display: "flex",
   justifyContent: "center",
-  position: "fixed", // Make it fixed as well
+  position: "fixed",
   width: "100%",
-  top: "70px", // Place it right below the main AppBar
+  top: "70px",
   zIndex: 2,
 }));
 
