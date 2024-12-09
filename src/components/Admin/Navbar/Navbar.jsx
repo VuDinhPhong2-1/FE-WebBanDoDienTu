@@ -18,17 +18,12 @@ function Navbar({ activeTab, activeToggleBarAdmin }) {
     activeToggleBarAdmin(!activeTab);
   };
 
-  const test = () => {
-    console.log("123");
-  };
-
   return (
     <header className="header">
       <div
         className="toggle"
         onClick={() => {
           handleActiveToggle();
-          test();
         }}
       >
         <FontAwesomeIcon icon={faBars} />

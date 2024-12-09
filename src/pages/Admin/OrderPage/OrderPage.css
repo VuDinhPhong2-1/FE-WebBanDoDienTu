@@ -1,0 +1,56 @@
+.order-page-container {
+  background-color: #2b2c40;
+  padding: 20px;
+  min-height: calc(100vh - 50px);
+
+  & .order-page-title {
+    color: #adb5bd;
+    font-size: 25px;
+    font-weight: bold;
+  }
+
+  & .filter-container {
+    padding: 20px 0;
+    width: 250px;
+
+    .filter-by-category select {
+      appearance: none;
+      background-color: #1c1c36;
+      color: #b0b0d5;
+      padding: 12px;
+      font-size: 16px;
+      border: 1px solid #5a5a8d;
+      border-radius: 8px;
+      width: 250px;
+      cursor: pointer;
+    }
+
+    /* Định dạng khi <select> được focus */
+    .filter-by-category select:focus {
+      outline: none; /* Loại bỏ khung mặc định khi focus */
+      border-color: #6b6beb;
+      box-shadow: 0 0 4px rgba(107, 107, 235, 0.5);
+    }
+
+    /* Định dạng của mũi tên (icon dropdown) */
+    .filter-by-category {
+      position: relative;
+    }
+
+    .filter-by-category::after {
+      content: "▼";
+      position: absolute;
+      right: 9px;
+      top: 23px;
+      transform: translateY(-50%);
+      color: #b0b0d5;
+      pointer-events: none;
+    }
+  }
+
+  & .list-orders {
+    display: flex;
+    border-top: 1px solid #eee3;
+    padding: 20px 0;
+  }
+}

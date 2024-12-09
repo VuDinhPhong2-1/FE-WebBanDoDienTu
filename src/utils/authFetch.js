@@ -33,7 +33,6 @@ export default async function fetchWithAuth(redirectURL, url, options = {}) {
       const { access_token } = await refreshResponse.json();
       localStorage.setItem("access_token", access_token);
 
-      // Gửi lại yêu cầu ban đầu với access_token mới
       response = await fetch(url, {
         ...options,
         headers: {
@@ -42,12 +41,15 @@ export default async function fetchWithAuth(redirectURL, url, options = {}) {
         },
       });
     }
+
     if (response.ok) {
       const data = await response.json();
       return { response, data };
     } else {
       const data = await response.json();
-      throw new Error(data, "Access denied: insufficient permissions");
+      throw new Error(
+        data.message || "Access denied: insufficient permissions"
+      );
     }
   } catch (err) {
     console.error("API request failed:", err);

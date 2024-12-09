@@ -21,6 +21,12 @@ import AdminRoute from "./components/Admin/AdminRoute/AdminRoute";
 import NotAdminPage from "./pages/NotAdminPage/NotAdminPage";
 import AdminDashboard from "./pages/Admin/AdminDashboard/AdminDashboard";
 import AdminLayout from "./layouts/AdminLayout/AdminLayout";
+import ProductPage from "./pages/Admin/ProductPage/ProductPage";
+import CreateProductPage from "./pages/Admin/AddProductPage/CreateProductPage";
+import EditProductPage from "./pages/Admin/EditProductPage/EditProductPage";
+import AdminOrderPage from "./pages/Admin/OrderPage/OrderPage";
+import EditOrderPage from "./pages/Admin/EditOrderPage/EditOrderPage";
+import RolePage from "./pages/Admin/RolePage/RolePage";
 
 function App() {
   const [cartItemsCount, setCartItemsCount] = useState(0);
@@ -136,6 +142,66 @@ function App() {
               <AdminRoute>
                 <AdminLayout>
                   <AdminDashboard />
+                </AdminLayout>
+              </AdminRoute>
+            }
+          />
+          <Route
+            path="/admin/products"
+            element={
+              <AdminRoute>
+                <AdminLayout>
+                  <ProductPage />
+                </AdminLayout>
+              </AdminRoute>
+            }
+          />
+          <Route
+            path="/admin/products/create"
+            element={
+              <AdminRoute>
+                <AdminLayout>
+                  <CreateProductPage />
+                </AdminLayout>
+              </AdminRoute>
+            }
+          />{" "}
+          <Route
+            path="/admin/products/edit/:productId"
+            element={
+              <AdminRoute>
+                <AdminLayout>
+                  <EditProductPage />
+                </AdminLayout>
+              </AdminRoute>
+            }
+          />
+          <Route
+            path="/admin/orders"
+            element={
+              <AdminRoute>
+                <AdminLayout>
+                  <AdminOrderPage />
+                </AdminLayout>
+              </AdminRoute>
+            }
+          />
+          <Route
+            path="/admin/roles"
+            element={
+              <AdminRoute>
+                <AdminLayout>
+                  <RolePage />
+                </AdminLayout>
+              </AdminRoute>
+            }
+          />
+          <Route
+            path="/admin/orders/edit/:orderId"
+            element={
+              <AdminRoute>
+                <AdminLayout>
+                  <EditOrderPage />
                 </AdminLayout>
               </AdminRoute>
             }

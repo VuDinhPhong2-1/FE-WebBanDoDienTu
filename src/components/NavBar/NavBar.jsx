@@ -1,10 +1,25 @@
-import { AppBar, Toolbar, Typography, Box, styled } from "@mui/material";
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Box,
+  styled,
+  IconButton,
+  Drawer,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import {
   FaCreditCard,
   FaPercent,
   FaWrench,
   FaUserTie,
   FaNewspaper,
+  FaBars,
 } from "react-icons/fa";
 import { Logo } from "./Logo";
 import { Search } from "./Search";
@@ -13,10 +28,11 @@ import { StoreLocator } from "./StoreLocator";
 import { LoginRegister } from "./LoginRegister";
 import { Cart } from "./Cart";
 import { CategoryMenu } from "./CategoryMenu";
+import React, { useState } from "react";
 
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
   backgroundColor: "#D91E1E",
-  position: "fixed", 
+  position: "fixed",
   top: 0,
 }));
 
@@ -28,8 +44,11 @@ const SecondaryNav = styled(Box)(({ theme }) => ({
   justifyContent: "center",
   position: "fixed",
   width: "100%",
-  top: "70px",
+  top: "60px",
   zIndex: 2,
+  [theme.breakpoints.down("md")]: {
+    display: "none", // Ẩn SecondaryNav khi màn hình nhỏ
+  },
 }));
 
 const NavItem = styled(Box)(({ theme }) => ({
@@ -44,44 +63,75 @@ const NavItem = styled(Box)(({ theme }) => ({
 }));
 
 export const NavBar = ({ cartItemsCount, setUser }) => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md")); // Kiểm tra kích thước màn hình
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const handleDrawerToggle = () => {
+    setDrawerOpen(!drawerOpen);
+  };
+
+  const drawerItems = (
+    <List>
+      <ListItem button>
+        <ListItemIcon>
+          <FaCreditCard />
+        </ListItemIcon>
+        <ListItemText primary="Hướng dẫn thanh toán" />
+      </ListItem>
+      <ListItem button>
+        <ListItemIcon>
+          <FaPercent />
+        </ListItemIcon>
+        <ListItemText primary="Hướng dẫn trả góp" />
+      </ListItem>
+      <ListItem button>
+        <ListItemIcon>
+          <FaWrench />
+        </ListItemIcon>
+        <ListItemText primary="Tra cứu bảo hành" />
+      </ListItem>
+      <ListItem button>
+        <ListItemIcon>
+          <FaUserTie />
+        </ListItemIcon>
+        <ListItemText primary="Tuyển dụng" />
+      </ListItem>
+      <ListItem button>
+        <ListItemIcon>
+          <FaNewspaper />
+        </ListItemIcon>
+        <ListItemText primary="Tin công nghệ" />
+      </ListItem>
+    </List>
+  );
+
   return (
     <>
       {/* StyledAppBar */}
       <StyledAppBar position="fixed">
-        <Toolbar sx={{ justifyContent: "center" }}>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              width: "100%",
-              maxWidth: "1200px",
-              height: "70px",
-            }}
-          >
-            <Box sx={{ display: "flex", alignItems: "center", width: "100%" }}>
-              {/* Logo component*/}
-              <Logo />
-              {/* Search component */}
-              <Search />
-            </Box>
-            {/* List Menu Items */}
+        <Toolbar sx={{ justifyContent: "space-between" }}>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Logo />
+            {!isMobile && <Search />}
+          </Box>
+          {isMobile ? (
+            <IconButton color="inherit" edge="end" onClick={handleDrawerToggle}>
+              <FaBars />
+            </IconButton>
+          ) : (
             <Box sx={{ display: "flex", alignItems: "center" }}>
-              {/* HotLine */}
               <HotLine />
-              {/* StoreLocator */}
               <StoreLocator />
-              {/* Login Register */}
               <LoginRegister setUser={setUser} />
-              {/* Cart */}
               <Cart cartItemsCount={cartItemsCount} />
             </Box>
-          </Box>
+          )}
         </Toolbar>
       </StyledAppBar>
+
       {/* SecondaryNav */}
       <SecondaryNav>
-        {/* Categories Menu */}
         <CategoryMenu />
         <NavItem>
           <FaCreditCard />
@@ -129,6 +179,11 @@ export const NavBar = ({ cartItemsCount, setUser }) => {
           </Typography>
         </NavItem>
       </SecondaryNav>
+
+      {/* Drawer for Mobile */}
+      <Drawer anchor="right" open={drawerOpen} onClose={handleDrawerToggle}>
+        {drawerItems}
+      </Drawer>
 
       {/* Add some padding to push content below the fixed navbar */}
       <Box sx={{ marginTop: "107px" }}></Box>

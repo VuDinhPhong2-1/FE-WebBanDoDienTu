@@ -2,14 +2,17 @@ import React from "react";
 import SideBar from "../../components/Admin/SideBar/SideBar";
 import "./AdminLayout.css";
 import Navbar from "../../components/Admin/Navbar/Navbar";
-function AdminLayout({ children }) {
+import { connect } from "react-redux";
+function AdminLayout({ children, activeTab }) {
   return (
     <div className="adminLayout">
       <Navbar />
       <SideBar />
-      {children}
+      <div className={activeTab ?  "main" : "main active"}>{children}</div>
     </div>
   );
 }
-
-export default AdminLayout;
+const mapStateToProps = (state) => ({
+  activeTab: state.activeTab,
+});
+export default connect(mapStateToProps)(AdminLayout);

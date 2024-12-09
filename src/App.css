@@ -6,7 +6,28 @@
 body {
   font-size: 15px;
 }
-section {
-  background-color: #2a2f34;
+main {
   padding: 20px;
+  background-color: #2b2c40;
+  min-height: 100%;
+}
+section {
+  padding: 20px;
+}
+
+section.title {
+  padding: 20px 0;
+  color: #5e61e5;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  & svg {
+    font-size: 1.5em;
+  }
+  & a {
+    text-decoration: none;
+    font-size: 1.5em;
+    color: #5e61e5;
+    text-transform: uppercase;
+  }
 }

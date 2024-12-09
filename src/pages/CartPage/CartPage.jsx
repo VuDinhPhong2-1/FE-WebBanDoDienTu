@@ -112,7 +112,7 @@ function CartPage({ updateCartCount }) {
         }));
         navigate("/checkout", { state: { productsWithQuantity } });
   
-        clearCartCookies();
+        // clearCartCookies();
         setCart([]);
         updateCartCount();
       } else {

@@ -4,12 +4,14 @@
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   background-color: #fff;
+  overflow-x: auto; /* Cho phép cuộn ngang */
 }
 
 .table-order table {
   font-family: Arial, sans-serif;
   border-collapse: collapse;
   width: 100%;
+  min-width: 600px; /* Đặt chiều rộng tối thiểu để tạo cuộn khi nhỏ hơn */
 }
 
 .table-order th,
@@ -46,7 +48,10 @@
   text-align: right;
 }
 
-.table-order table {
-  max-width: 100%;
-  overflow-x: auto;
+@media (max-width: 768px) {
+  .table-order table {
+    width: 100%;
+    display: block;
+    overflow-x: auto; /* Đảm bảo cuộn ngang khi màn hình nhỏ */
+  }
 }

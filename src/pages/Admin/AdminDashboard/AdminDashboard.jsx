@@ -8,15 +8,15 @@ import TableOrder from "../../../components/Admin/TableOrder/TableOrder";
 
 function AdminDashboard() {
   return (
-    <section className="admin-dashboard">
-      <div className="title">
+    <main className="admin-dashboard">
+      <section className="title">
         <FontAwesomeIcon icon={faHome} />
         <a href="/admin/dashboard">Dashboard</a>
-      </div>
+      </section>
       <DashboardCard />
       <DoughnutChart />
       <TableOrder />
-    </section>
+    </main>
   );
 }
 

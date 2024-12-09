@@ -1,0 +1,190 @@
+& label {
+  color: #d0d0dc;
+  font-size: 0.75em;
+}
+
+& .select {
+  display: flex;
+  width: 100%;
+  gap: 20px;
+  align-items: center;
+  margin-bottom: 20px;
+  & select {
+    appearance: none;
+    background-color: #1c1c36;
+    color: #b0b0d5;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #5a5a8d;
+    border-radius: 8px;
+    width: 250px;
+    cursor: pointer;
+
+    &:focus {
+      outline: none; /* Loại bỏ khung mặc định khi focus */
+      border-color: #6b6beb;
+      box-shadow: 0 0 4px rgba(107, 107, 235, 0.5);
+    }
+  }
+}
+& input {
+  color: #d0d0dc;
+  padding: 5px 10px;
+  width: 100%;
+  background-color: transparent;
+  border: 1px solid #9b9cab;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  & ::placeholder {
+    color: #7b7b8c;
+  }
+}
+.container {
+  display: flex;
+  justify-content: center;
+  & .left-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    max-width: 943px;
+    width: 100%;
+    gap: 20px;
+    & .product-information {
+      width: 100%;
+      background-color: #34364e;
+      height: fit-content;
+      padding: 20px;
+      border-radius: 5px;
+      & .title {
+        font-size: 1.125em;
+        color: #d0d0dc;
+        padding: 20px 0;
+      }
+    }
+
+    & .product-image {
+      display: flex;
+      flex-direction: column;
+      background-color: #34364e;
+      min-height: 350px;
+      border-radius: 5px;
+      padding: 20px;
+      & .title {
+        font-size: 1.125em;
+        color: #d0d0dc;
+        padding: 20px 0;
+      }
+
+      & .drop-zone {
+        z-index: 100;
+        width: 100%;
+        height: 100%;
+        border: 1px dashed #eee3;
+        border-radius: 5px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 48px;
+        gap: 10px;
+      }
+
+      & .icon-upload {
+        width: 40px;
+        height: 40px;
+        background-color: #393c50;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 5px;
+        & svg {
+          width: 50%;
+          height: 50%;
+          color: #595d77;
+        }
+      }
+      & h4 {
+        font-size: 1.5em;
+        color: #cacad7;
+      }
+
+      & span {
+        color: #626374;
+      }
+
+      & button {
+        background-color: #4c4cff; /* Màu nền nút giống hình */
+        color: #fff; /* Màu chữ */
+        border: none; /* Loại bỏ viền */
+        padding: 10px 20px; /* Khoảng cách bên trong */
+        border-radius: 5px; /* Bo góc nút */
+        cursor: pointer; /* Thay đổi con trỏ khi hover */
+        font-size: 14px; /* Kích thước chữ */
+        text-transform: capitalize; /* Chữ viết hoa chữ cái đầu */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Hiệu ứng bóng */
+        transition: all 0.3s ease; /* Hiệu ứng mượt */
+
+        &:hover {
+          background-color: #3333cc; /* Màu nền khi hover */
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4); /* Tăng hiệu ứng bóng */
+          transform: translateY(-2px); /* Dịch chuyển nhẹ nút khi hover */
+        }
+      }
+
+      & .preview-images img {
+        border: 1px solid #ccc;
+        transition: transform 0.3s ease;
+
+        &:hover {
+          transform: scale(1.1);
+        }
+      }
+    }
+  }
+
+  & .right-column {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    max-width: 448px;
+    width: 100%;
+    gap: 20px;
+
+    & .pricing {
+      width: 100%;
+      background-color: #34364e;
+      height: fit-content;
+      padding: 20px;
+      border-radius: 5px;
+      & .title {
+        font-size: 1.125em;
+        color: #d0d0dc;
+        padding: 20px 0;
+      }
+    }
+    & .button-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+
+      & .btn-create {
+        background-color: #4c4cff; /* Màu nền */
+        color: #fff; /* Màu chữ */
+        border: none; /* Loại bỏ viền */
+        padding: 12px 20px; /* Khoảng cách bên trong */
+        border-radius: 5px; /* Bo góc nút */
+        font-size: 16px; /* Kích thước chữ */
+        font-weight: bold; /* In đậm chữ */
+        text-transform: uppercase; /* Chữ in hoa */
+        cursor: pointer; /* Con trỏ dạng tay */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Hiệu ứng bóng */
+        transition: all 0.3s ease; /* Hiệu ứng khi hover */
+
+        &:hover {
+          background-color: #3333cc; /* Màu nền khi hover */
+          box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2); /* Tăng hiệu ứng bóng */
+          transform: translateY(-2px); /* Nút dịch lên nhẹ */
+        }
+      }
+    }
+  }
+}

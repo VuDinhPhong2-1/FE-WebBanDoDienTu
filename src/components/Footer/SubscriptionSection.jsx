@@ -9,20 +9,29 @@ const SubscriptionSection = styled(Box)`
   display: flex;
   max-width: 1250px;
   width: 100%; /* Đảm bảo nó chiếm 100% chiều rộng */
-  height: 85.8px;
+  min-height: 85.8px;
+  height: fit-content;
   background-color: transparent;
   border-bottom: 1px solid white;
   align-items: center;
   justify-content: space-between;
+  gap: 10px;
+  @media (max-width: 976px) {
+    flex-direction: column;
+  }
 `;
 const InputEmailWrapper = styled(Box)`
   background: white;
   height: 45.1px;
-  width: 450px;
+  max-width: 450px;
+  width: 100%;
   display: flex;
   align-items: center;
   margin-left: 100px;
   padding-left: 10px;
+  @media (max-width: 976px) {
+    margin-left: 0;
+  }
 `;
 export const Subscription = () => {
   return (
@@ -34,6 +43,13 @@ export const Subscription = () => {
           display: "flex",
           alignItems: "center",
           height: "100%",
+          gap: "10px",
+          flexDirection: "row",
+          // Thay đổi hướng layout dựa trên kích thước màn hình
+          "@media (max-width: 976px)": {
+            flexDirection: "column",
+            justifyContent: "center",
+          },
         }}
       >
         <Typography
@@ -60,8 +76,8 @@ export const Subscription = () => {
                 background: "red",
                 height: "100%",
                 borderRadius: "0px",
-                width: "120px",
-                minWidth: "120px",
+                width: "100%",
+                maxWidth: "120px",
                 color: "white",
                 "&:hover": {
                   background: "darkred",

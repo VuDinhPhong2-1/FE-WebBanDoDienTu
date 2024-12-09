@@ -131,8 +131,21 @@ export const ProductList = ({ categoryName, categories, products }) => {
                 <Box sx={{ display: "flex", gap: 2 }}>
                   {product.discountedPrice < product.originalPrice && (
                     <Typography
-                      variant="h6"
-                      sx={{ marginTop: 1, fontWeight: 600, color: "red" }}
+                      sx={{
+                        marginTop: 1,
+                        fontWeight: 600,
+                        color: "red",
+                        fontSize: "1em",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        "@media (max-width: 888px)": {
+                          fontSize: "0.75em",
+                        },
+                        "@media (max-width: 768px)": {
+                          fontSize: "0.65em",
+                        },
+                      }}
                     >
                       {product.discountedPrice.toLocaleString()}₫
                     </Typography>
@@ -167,9 +180,7 @@ export const ProductList = ({ categoryName, categories, products }) => {
       >
         <Button
           variant="contained"
-          onClick={() =>
-            navigate(`collections/${categoryName}`)
-          }
+          onClick={() => navigate(`collections/${categoryName}`)}
           sx={{
             display: "flex",
             alignItems: "center",

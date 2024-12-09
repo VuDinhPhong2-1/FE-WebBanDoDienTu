@@ -115,20 +115,21 @@ const CustomInput = styled.input`
   transition: 0.2s ease;
   background: transparent;
   border: 1px solid #d9d9d9;
+  color: black;
   &:focus {
     border: 2px solid #338dbc;
   }
   &:focus + ${CustomLabel} {
-    transform: translate(-3px, -23px) scale(0.88);
+    transform: translate(-3px, -30px) scale(0.88);
     padding: 0 12px;
   }
   &:valid + ${CustomLabel} {
-    transform: translate(-3px, -23px) scale(0.88);
+    transform: translate(-3px, -30px) scale(0.88);
     padding: 0 12px;
   }
 `;
 
-const CheckoutPage = () => {
+const CheckoutPage = ({ updateCartCount }) => {
   const userData = localStorage.getItem("userData");
   const parsedUserData = userData ? JSON.parse(userData) : null;
   const navigate = useNavigate();
@@ -179,6 +180,7 @@ const CheckoutPage = () => {
     if (productsWithQuantity && productsWithQuantity.length > 0) {
       const productIds = productsWithQuantity.map((item) => item.productId);
       fetchProductDetails(productIds);
+      updateCartCount();
     }
   }, [productsWithQuantity]);
 
@@ -223,13 +225,13 @@ const CheckoutPage = () => {
     const value = e.target.value;
     setSelectedPaymentMethod(value);
     setShowBankOptions(value === "bank");
-    console.log("Selected Payment Method:", value); 
+    console.log("Selected Payment Method:", value);
   };
 
   const handleBankOptionChange = (e) => {
     const value = e.target.value;
     setSelectedBankOption(value);
-    console.log("Selected Bank Option:", value); 
+    console.log("Selected Bank Option:", value);
   };
 
   const handleSubmit = async () => {
@@ -249,7 +251,8 @@ const CheckoutPage = () => {
         })),
       };
 
-      const { response, data } = await fetchWithAuth("/login",
+      const { response, data } = await fetchWithAuth(
+        "/login",
         "http://localhost:3001/orders",
         {
           method: "POST",
@@ -268,31 +271,36 @@ const CheckoutPage = () => {
           selectedBankOption === "stripe"
         ) {
           const { response: stripeResponse, data: sessionData } =
-            await fetchWithAuth("/login","http://localhost:3001/stripe/checkout", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                currency: "vnd",
-                orderId: orderId,
-                products: products.map((product) => ({
-                  productName: product.name,
-                  unitAmount: Math.round(
-                    Math.min(
-                      product.discountedPrice || Infinity,
-                      product.originalPrice
-                    )
-                  ),
-                  quantity: product.quantity,
-                })),
-              }),
-            });
+            await fetchWithAuth(
+              "/login",
+              "http://localhost:3001/stripe/checkout",
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  currency: "vnd",
+                  orderId: orderId,
+                  products: products.map((product) => ({
+                    productName: product.name,
+                    unitAmount: Math.round(
+                      Math.min(
+                        product.discountedPrice || Infinity,
+                        product.originalPrice
+                      )
+                    ),
+                    quantity: product.quantity,
+                  })),
+                }),
+              }
+            );
 
           if (stripeResponse.ok && sessionData.url) {
             window.location.href = sessionData.url;
           }
         } else {
+          clearCartCookies();
           navigate(`/order-success/${orderId}`);
         }
       } else {
@@ -577,7 +585,14 @@ const CheckoutPage = () => {
 
             return (
               <ProductItem key={product.productId}>
-                <Box sx={{ height: "64px", minWidth: "64px", width: "64px" }}>
+                <Box
+                  sx={{
+                    height: "64px",
+                    minWidth: "64px",
+                    width: "64px",
+                    position: "relative",
+                  }}
+                >
                   <img
                     src={product.images[0]}
                     alt={product.name}
@@ -588,11 +603,12 @@ const CheckoutPage = () => {
                       borderRadius: "8px",
                     }}
                   />
+                  {/*  quantity */}
                   <Typography
                     sx={{
                       position: "absolute",
-                      top: -10,
-                      right: -10,
+                      top: 0,
+                      right: 0,
                       backgroundColor: "gray",
                       color: "white",
                       width: "24px",

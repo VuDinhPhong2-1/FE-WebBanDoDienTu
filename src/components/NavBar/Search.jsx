@@ -120,6 +120,7 @@ export const Search = () => {
             outline: "none",
             width: "100%",
             background: "white",
+            margin: 0,
           }}
         />
         <IconButton

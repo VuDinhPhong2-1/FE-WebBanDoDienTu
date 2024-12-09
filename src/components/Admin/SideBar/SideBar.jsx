@@ -1,29 +1,35 @@
 import React from "react";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import BoltIcon from "@mui/icons-material/Bolt";
 import { connect } from "react-redux";
-import WorkspacePremiumIcon from "@mui/icons-material/WorkspacePremium";
-import VpnKeyOutlinedIcon from "@mui/icons-material/VpnKeyOutlined";
-import PersonPinCircleOutlinedIcon from "@mui/icons-material/PersonPinCircleOutlined";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import PaidIcon from "@mui/icons-material/Paid";
-import BackupTableIcon from "@mui/icons-material/BackupTable";
-import RocketLaunchOutlinedIcon from "@mui/icons-material/RocketLaunchOutlined";
+import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faGauge,
+  faClipboard,
+  faKey,
+  faUser,
+  faRocket,
+  faUsers,
+  faCartShopping,
+  faArrowRight,
+} from "@fortawesome/free-solid-svg-icons"; // Thêm các icon từ FontAwesome
+import {
+  faCriticalRole,
+  faProductHunt,
+} from "@fortawesome/free-brands-svg-icons"; // Biểu tượng thương hiệu
 import "./sidebar.css";
-import { useNavigate } from "react-router-dom"; // Sửa thành useNavigate
 
 const listCategories = [
-  { name: "DashBoard", icon: DashboardIcon, url: "/admin/dashboard" },
-  { name: "Table", icon: BackupTableIcon, url: "/" },
-  { name: "Billing", icon: PaidIcon, url: "/admin/dashboard" },
-  { name: "Products", icon: BoltIcon, url: "/admin/dashboard" },
-  { name: "Permission", icon: WorkspacePremiumIcon, url: "/admin/dashboard" },
+  { name: "DashBoard", icon: faGauge, url: "/admin/dashboard" },
+  { name: "Orders", icon: faClipboard, url: "/admin/orders" },
+  { name: "Products", icon: faProductHunt, url: "/admin/products/" },
+  { name: "Permission", icon: faUsers, url: "/admin/permissions" },
+  { name: "Role", icon: faCriticalRole, url: "/admin/roles" },
 ];
 
 const listAccountPage = [
-  { name: "Profile", icon: PersonPinCircleOutlinedIcon },
-  { name: "Sign In", icon: VpnKeyOutlinedIcon },
-  { name: "Sign Up", icon: RocketLaunchOutlinedIcon },
+  { name: "Profile", icon: faUser },
+  { name: "Sign In", icon: faKey },
+  { name: "Sign Up", icon: faRocket },
 ];
 
 function SideBar({ activeTab }) {
@@ -33,33 +39,22 @@ function SideBar({ activeTab }) {
     <div className={activeTab ? "sidebar active" : "sidebar"}>
       <div className="title">Categories</div>
       <div className="list">
-        {listCategories.map((value, index) => {
-          const IconComponent = value.icon;
-          return (
-            <div
-              className="item"
-              key={index}
-              onClick={() => navigate(value.url)}
-            >
-              <IconComponent sx={{ fontSize: "20px" }} />
-              <div className="name">{value.name}</div>
-              <ArrowForwardIosIcon sx={{ fontSize: "20px" }} />
-            </div>
-          );
-        })}
+        {listCategories.map((value, index) => (
+          <div className="item" key={index} onClick={() => navigate(value.url)}>
+            <FontAwesomeIcon icon={value.icon} style={{ fontSize: "20px" }} />
+            <div className="name">{value.name}</div>
+            <FontAwesomeIcon icon={faArrowRight} style={{ fontSize: "12px" }} />
+          </div>
+        ))}
       </div>
       <div className="title">Account Page</div>
       <div className="list">
-        {listAccountPage.map((value, index) => {
-          const IconComponent = value.icon;
-          return (
-            <div className="item" key={index}>
-              <IconComponent sx={{ fontSize: "20px" }} />
-              <div className="name">{value.name}</div>
-              <ArrowForwardIosIcon sx={{ fontSize: "20px" }} />
-            </div>
-          );
-        })}
+        {listAccountPage.map((value, index) => (
+          <div className="item" key={index}>
+            <FontAwesomeIcon icon={value.icon} style={{ fontSize: "20px" }} />
+            <div className="name">{value.name}</div>
+          </div>
+        ))}
       </div>
     </div>
   );
