@@ -22,7 +22,7 @@ const listCategories = [
   { name: "DashBoard", icon: faGauge, url: "/admin/dashboard" },
   { name: "Orders", icon: faClipboard, url: "/admin/orders" },
   { name: "Products", icon: faProductHunt, url: "/admin/products/" },
-  { name: "Permission", icon: faUsers, url: "/admin/permissions" },
+  { name: "Users", icon: faUsers, url: "/admin/users" },
   { name: "Role", icon: faCriticalRole, url: "/admin/roles" },
 ];
 

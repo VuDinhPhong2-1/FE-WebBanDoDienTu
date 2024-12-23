@@ -110,8 +110,21 @@ export const NavBar = ({ cartItemsCount, setUser }) => {
     <>
       {/* StyledAppBar */}
       <StyledAppBar position="fixed">
-        <Toolbar sx={{ justifyContent: "space-between" }}>
-          <Box sx={{ display: "flex", alignItems: "center" }}>
+        <Toolbar
+          sx={{
+            display: "flex",
+            justifyContent: isMobile ? "space-between" : "center",
+            width: "100%",
+          }}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              width: "fit-content",
+              justifyContent: "center",
+            }}
+          >
             <Logo />
             {!isMobile && <Search />}
           </Box>
@@ -120,7 +133,9 @@ export const NavBar = ({ cartItemsCount, setUser }) => {
               <FaBars />
             </IconButton>
           ) : (
-            <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Box
+              sx={{ display: "flex", alignItems: "center", marginLeft: "20px" }}
+            >
               <HotLine />
               <StoreLocator />
               <LoginRegister setUser={setUser} />

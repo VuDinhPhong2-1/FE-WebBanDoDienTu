@@ -32,6 +32,7 @@ export const AuthProvider = ({ children }) => {
       );
       localStorage.removeItem("access_token");
       localStorage.removeItem("userData");
+      document.cookie = 'connect.sid=; Max-Age=0; path=/; domain=localhost'; 
       setIsLoggedIn(false);
       setUserData(null);
     } catch (error) {

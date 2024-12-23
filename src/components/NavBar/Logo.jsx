@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 export const Logo = ({ width, url }) => {
   const LogoImage = styled("img")(({ theme }) => ({
     height: "60px",
-    marginRight: theme.spacing(2),
+    margin: "0 30px",
     cursor: "pointer",
     maxWidth: width ? width : "",
     width: width ? "100%" : "",

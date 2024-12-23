@@ -27,19 +27,20 @@
     }
   }
 }
-& input {
-  color: #d0d0dc;
-  padding: 5px 10px;
-  width: 100%;
-  background-color: transparent;
-  border: 1px solid #9b9cab;
-  border-radius: 5px;
-  margin-bottom: 20px;
-  & ::placeholder {
-    color: #7b7b8c;
-  }
-}
+
 .container {
+  & input {
+    color: #d0d0dc;
+    padding: 5px 10px;
+    width: 100%;
+    background-color: transparent;
+    border: 1px solid #9b9cab;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    & ::placeholder {
+      color: #7b7b8c;
+    }
+  }
   display: flex;
   justify-content: center;
   & .left-column {

@@ -1,0 +1,279 @@
+.user-table-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+  width: 100%;
+
+  & .search-container {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    gap: 10px;
+
+    & input {
+      flex: 1;
+      height: 40px;
+      border: 1px solid #5a5a8d;
+      border-radius: 5px;
+      color: #fff;
+      background-color: #222;
+
+      &:focus {
+        border: 1.5px solid #6b6beb;
+        outline: none;
+        box-shadow: 0 0 4px rgba(107, 107, 235, 0.5);
+      }
+    }
+  }
+
+  & .button-add-new {
+    height: 40px;
+    padding: 0 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #5e61e5;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #6b6beb;
+    }
+
+    &::before {
+      content: "+";
+      margin-right: 5px;
+    }
+  }
+  table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+    background-color: #1e1e2d;
+    color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+
+    thead {
+      background-color: #2a2a3e;
+
+      th {
+        text-align: left;
+        padding: 12px 10px;
+        font-weight: bold;
+      }
+    }
+
+    tbody {
+      tr:nth-child(even) {
+        background-color: #252537;
+      }
+    }
+
+    td {
+      padding: 12px 10px;
+      text-align: left;
+      vertical-align: middle;
+
+      &:nth-child(6) {
+        max-width: 150px;
+      }
+
+      & .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 30px;
+        height: 30px;
+        background-color: #5e61e5;
+        border-radius: 50%;
+        cursor: pointer;
+
+        svg {
+          color: #fff;
+        }
+
+        &:hover {
+          background-color: #6b6beb;
+        }
+      }
+    }
+  }
+}
+
+.status {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.9em;
+
+  &.active {
+    background-color: #198754;
+    color: #fff;
+  }
+
+  &.inactive {
+    background-color: #dc3545;
+    color: #fff;
+  }
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+
+  button {
+    padding: 8px 12px;
+    background-color: #5e61e5;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #6b6beb;
+    }
+
+    &:disabled {
+      background-color: #5a5a8d;
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+  }
+
+  span {
+    color: #fff;
+    font-weight: bold;
+  }
+}
+
+.error-message {
+  color: #dc3545;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.no-data {
+  text-align: center;
+  padding: 20px;
+}
+.container-dialog {
+  height: fit-content;
+  max-width: 100%;
+  width: 700px;
+  background-color: #35354e;
+  border-radius: 5px;
+  padding: 20px;
+
+  & .container-checkbox {
+    display: flex;
+
+    & span {
+      color: #fff;
+      width: 100px;
+    }
+    & input {
+      display: flex;
+      width: 50px;
+      margin: 0;
+    }
+  }
+}
+
+.role-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 5px;
+}
+
+.role-tag {
+  background-color: #f0f0f0;
+  color: #333;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.role-tag:hover {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.role-tag.more {
+  background-color: #007bff;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.role-tag.more:hover {
+  background-color: #0056b3;
+  color: #fff;
+}
+
+.container-checkbox {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.container-checkbox span {
+  margin-right: 10px;
+  font-size: 14px;
+  color: #333;
+}
+
+.container-checkbox input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+input[type="checkbox"]:checked {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+@media (max-width: 768px) {
+  .user-table-controls .search-container {
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+
+    input,
+    button {
+      width: 100%;
+    }
+  }
+
+  table {
+    display: block;
+    overflow-x: auto;
+  }
+
+  .dialog-content {
+    width: 90%;
+    margin: 0 auto;
+  }
+
+  .role-tags {
+    max-width: 100%;
+
+    .role-tag {
+      font-size: 0.7rem;
+      padding: 1px 6px;
+    }
+  }
+}

@@ -1,0 +1,18 @@
+.user-page-container {
+    background-color: #2b2c40;
+    padding: 20px;
+    min-height: calc(100vh - 50px);
+  
+    & .user-page-title {
+      color: #adb5bd;
+      font-size: 25px;
+      font-weight: bold;
+    }
+  
+    & .list-users {
+      display: flex;
+      border-top: 1px solid #eee3;
+      padding: 20px 0;
+    }
+  }
+  

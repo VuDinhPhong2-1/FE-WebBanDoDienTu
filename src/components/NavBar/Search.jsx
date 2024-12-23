@@ -74,8 +74,9 @@ export const Search = () => {
       ref={searchRef}
       sx={{
         position: "relative",
-        width: "100%",
-        maxWidth: "427px",
+        width: "427px",
+        maxWidth: "100%",
+        marginLeft: "20px",
       }}
     >
       {showDropdown && (
@@ -107,9 +108,13 @@ export const Search = () => {
       >
         <input
           value={searchValue}
-          onChange={handleSearch}
+          onChange={(e) => {
+            handleSearch(e);
+            setShowDropdown(true);
+            performSearch();
+          }}
           onKeyDown={handleKeyDown}
-          onFocus={() => setShowDropdown(true)}
+          // onFocus={() => setShowDropdown(true)}
           style={{
             height: "40px",
             padding: "0px 10px",

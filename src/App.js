@@ -27,6 +27,7 @@ import EditProductPage from "./pages/Admin/EditProductPage/EditProductPage";
 import AdminOrderPage from "./pages/Admin/OrderPage/OrderPage";
 import EditOrderPage from "./pages/Admin/EditOrderPage/EditOrderPage";
 import RolePage from "./pages/Admin/RolePage/RolePage";
+import UserPage from "./pages/Admin/UserPage/UserPage";
 
 function App() {
   const [cartItemsCount, setCartItemsCount] = useState(0);
@@ -202,6 +203,16 @@ function App() {
               <AdminRoute>
                 <AdminLayout>
                   <EditOrderPage />
+                </AdminLayout>
+              </AdminRoute>
+            }
+          />
+          <Route
+            path="/admin/users"
+            element={
+              <AdminRoute>
+                <AdminLayout>
+                  <UserPage />
                 </AdminLayout>
               </AdminRoute>
             }
